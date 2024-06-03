@@ -1,9 +1,20 @@
+import { ChakraProvider, extendTheme, ThemeConfig } from '@chakra-ui/react';
 import Routes from "./Routes"
 
 
 
-function App() {
-  return <Routes />
-}
+const theme: ThemeConfig = extendTheme({
+  colors: {
+    primary: "#1277BE",
+    secondary: "#ffffff",
+    tertiary: "#35AFCF"
+  }
+})
 
-export default App
+export default function App() {
+  return (
+    <ChakraProvider theme={theme}>
+      <Routes />
+    </ChakraProvider>
+  )
+}
