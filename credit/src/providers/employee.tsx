@@ -9,7 +9,8 @@ export interface EmployeeContextProps{
     employee: EmployeeEntity,
     loans: LoanEntity[],
     loadEmployee: () => Promise<void>,
-    loadLoans: () => Promise<void>
+    loadLoans: () => Promise<void>,
+    setEmployee: (employee: Partial<EmployeeEntity>) => void
 }
 
 
@@ -25,13 +26,14 @@ const valueContext: EmployeeContextProps = {
     },
     loans: [],
     loadEmployee: async ()=> undefined,
-    loadLoans: async ()=> undefined
+    loadLoans: async ()=> undefined,
+    setEmployee: () => undefined
 }
 
-const AgentContext: React.Context<EmployeeContextProps> = React.createContext<EmployeeContextProps>(valueContext);
+export const EmployeeContext: React.Context<EmployeeContextProps> = React.createContext<EmployeeContextProps>(valueContext);
 
 
-export default function AgentProvider({ children }: React.PropsWithChildren): React.ReactElement{
+export default function EmployeeProvider({ children }: React.PropsWithChildren): React.ReactElement{
     const [employee, setEmployee] = React.useState<EmployeeEntity>(valueContext.employee);
 
     const [loans, setLoans] = React.useState<LoanEntity[]>(valueContext.loans);
@@ -43,15 +45,20 @@ export default function AgentProvider({ children }: React.PropsWithChildren): Re
     async function loadLoans(): Promise<void>{
         setLoans(valueContext.loans);
     }
+
+    function handleSetEmployee(employeeData: Partial<EmployeeEntity>): void{
+        setEmployee({ ...employee, ...employeeData});
+    }
     
     return (
-        <AgentContext.Provider value={{
+        <EmployeeContext.Provider value={{
             employee,
             loans,
             loadEmployee,
-            loadLoans
+            loadLoans,
+            setEmployee: handleSetEmployee
         }}>
             {children}
-        </AgentContext.Provider>
+        </EmployeeContext.Provider>
     )
 }

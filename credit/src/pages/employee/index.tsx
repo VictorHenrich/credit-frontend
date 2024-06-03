@@ -1,46 +1,20 @@
-import MenuDefault, {ItemMenuProps} from "../../components/menu";
-import { FaUserCheck } from "react-icons/fa";
-import { BsCreditCard2FrontFill } from "react-icons/bs";
-import { BiSolidBank } from "react-icons/bi";
-import { BiLogOut } from "react-icons/bi";
+import MenuDefault from "../../components/menu";
 import { Outlet } from "react-router-dom";
+import EmployeeProvider from "../../providers/employee";
+import { EMPLOYEE_ITENS_MENU } from "../../utils/constantes";
 
 
 
 
 
 export default function EmployeePage(){
-
-    const itensMenu: ItemMenuProps[] = [
-        {
-            description: "Perfil",
-            icon: FaUserCheck,
-            id: "profile"
-        },
-        {
-            description: "Empréstimos",
-            icon: BsCreditCard2FrontFill,
-            id: "loan"
-        },
-        {
-            description: "Contas Bancárias",
-            icon: BiSolidBank,
-            id: "bank"
-        },
-        {
-            description: "Sair",
-            icon: BiLogOut,
-            id: "logout"
-        }
-    ]
-
     return (
-        <>
+        <EmployeeProvider>
             <MenuDefault
                 isOpen={true}
-                itens={itensMenu}
+                itens={EMPLOYEE_ITENS_MENU}
             />
             <Outlet />
-        </>
+        </EmployeeProvider>
     );
 }

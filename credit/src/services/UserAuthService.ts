@@ -1,6 +1,6 @@
 import UserEntity, { UserTypes } from "../entities/User";
-import ServiceProps from "./interfaces";
-import api from "./api";
+import ServiceProps from "../utils/interfaces";
+import api from "../utils/api";
 
 
 

@@ -1,11 +1,14 @@
 import React from "react";
-import { Input, InputProps, InputGroup, InputRightElement, Icon } from "@chakra-ui/react";
+import { Input, InputProps, InputGroup, InputRightElement, Icon, TextProps, InputGroupProps } from "@chakra-ui/react";
+import TextDefault from "../text";
 
 
 
-
-export interface InputDefaultProps extends Partial<InputProps>{
-    icon?: any
+export interface InputDefaultProps extends Partial<InputProps & InputGroupProps>{
+    icon?: any,
+    label?: string,
+    labelProps?: Partial<TextProps>,
+    inputProps?: Partial<InputProps>
 }
 
 
@@ -13,7 +16,7 @@ function InputCustom(props: Partial<InputProps>): React.ReactElement{
     return (
         <Input
             width="100%"
-            padding={10}
+            padding={8}
             fontFamily="'Roboto Mono', monospace"
             borderWidth={2}
             _placeholder={{ color: "secondary", opacity: 0.5}}
@@ -26,32 +29,29 @@ function InputCustom(props: Partial<InputProps>): React.ReactElement{
 }
 
 
-export default function InputDefault({ icon, ...props}: InputDefaultProps = {}){
+export default function InputDefault({ icon, label, labelProps = {}, inputProps = {}, ...props}: InputDefaultProps = {}): React.ReactElement{
     return (
-        icon ? (
-            <InputGroup
-                display="flex"
-                width="100%"
-                alignItems="center"
-                position="relative"
-            >
-                <InputCustom
-                    {...props} 
-                />
+        <InputGroup
+            alignItems="flex-start"
+            position="relative"
+            flexDirection="column"
+            {...props}
+        >
+            {label ? <TextDefault marginBottom={2} {...labelProps}>{label}</TextDefault> : undefined}
+            <InputCustom {...inputProps}/>
+            {icon ? (
                 <InputRightElement 
-                    position="absolute"
-                    right="2%"
-                    top="25%"
-                >
-                    <Icon 
-                        as={icon}
-                        color="secondary"
-                        fontSize={40}
-                    />
-                </InputRightElement>
-            </InputGroup>
-        )
-        :
-        (<InputCustom {...props}/>)
+                position="absolute"
+                right="2%"
+                top="25%"
+            >
+                <Icon 
+                    as={icon}
+                    color="secondary"
+                    fontSize={40}
+                />
+            </InputRightElement>
+            ) : undefined}
+        </InputGroup>
     )
 }
