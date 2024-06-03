@@ -6,6 +6,7 @@ export default function ButtonDefault(props: ButtonProps){
     return (
         <Button 
             width="100%"
+            cursor="pointer"
             height="45px"
             backgroundColor="secondary"
             fontFamily='"Open Sans", sans-serif'

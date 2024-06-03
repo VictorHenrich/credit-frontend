@@ -23,12 +23,11 @@ export default function EmployeeProfilePage(): React.ReactElement{
 
     return (
         <Stack 
-            width="100vw" 
-            height="100vh"
+            width="100%" 
+            height="100%"
             boxSizing="border-box"
             justify="center"
             align="center"
-            background="primary"
             direction="column"
             spacing={50}
         >
@@ -46,7 +45,6 @@ export default function EmployeeProfilePage(): React.ReactElement{
                 borderRadius={10}
                 borderWidth={5}
                 borderColor="rgba(255, 255, 255, 0.3)"
-                spacing={5}
             >
                 <InputDefault 
                     type="text"

@@ -35,7 +35,7 @@ export default function HomePage(): React.ReactElement{
                 bgGradient="linear-gradient(to right, secondary 0%, secondary 5%, primary 6%, primary 94%)"
             >
                 {
-                    !Boolean(typeUser)
+                    !typeUser
                         ? (
                             <Stack
                             direction="column"

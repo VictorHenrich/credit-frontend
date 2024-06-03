@@ -1,6 +1,6 @@
 import React from "react";
 import AgentEntity from "../entities/Agent";
-import { LoanEntity } from "../entities/Loan";
+import LoanEntity from "../entities/Loan";
 
 
 

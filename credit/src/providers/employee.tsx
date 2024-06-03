@@ -1,13 +1,13 @@
 import React from "react";
-import { LoanEntity } from "../entities/Loan";
 import EmployeeEntity from "../entities/Employee";
+import EmployeeLoanEntity from "../entities/EmployeeLoan";
 
 
 
 
 export interface EmployeeContextProps{
     employee: EmployeeEntity,
-    loans: LoanEntity[],
+    loans: Omit<EmployeeLoanEntity[], "employee">,
     loadEmployee: () => Promise<void>,
     loadLoans: () => Promise<void>,
     setEmployee: (employee: Partial<EmployeeEntity>) => void
@@ -36,7 +36,7 @@ export const EmployeeContext: React.Context<EmployeeContextProps> = React.create
 export default function EmployeeProvider({ children }: React.PropsWithChildren): React.ReactElement{
     const [employee, setEmployee] = React.useState<EmployeeEntity>(valueContext.employee);
 
-    const [loans, setLoans] = React.useState<LoanEntity[]>(valueContext.loans);
+    const [loans, setLoans] = React.useState<Omit<EmployeeLoanEntity[], "employee">>(valueContext.loans);
 
     async function loadEmployee(): Promise<void>{
         setEmployee(valueContext.employee);

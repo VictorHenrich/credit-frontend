@@ -7,6 +7,7 @@ import EmployeePage from "./pages/employee";
 import AgentPage from "./pages/agent";
 import NotFoundPage from "./pages/notFound";
 import EmployeeProfilePage from "./pages/employee/profile";
+import EmployeeLoansPage from "./pages/employee/loans";
 
 
 
@@ -30,6 +31,10 @@ const routes: RouteObject[] = [
             {
                 path: "/employee/profile",
                 element: <EmployeeProfilePage />
+            },
+            {
+                path: "/employee/loans",
+                element: <EmployeeLoansPage />
             }
         ]
     }

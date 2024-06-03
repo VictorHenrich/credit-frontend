@@ -7,11 +7,13 @@ import {
     DrawerContent,
     List,
     ListItem,
-    ListIcon
+    ListIcon,
   } from '@chakra-ui/react'
+import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { useNavigate, NavigateFunction } from 'react-router-dom';
 import TextDefault from '../text';
 import HeadingDefault from '../heading';
+import ButtonDefault from '../button';
 
 
 
@@ -63,53 +65,66 @@ export default function MenuDefault({
     }
 
     return (
-        <Drawer
-            isOpen={openMenu}
-            onClose={() => setOpenMenu(false)}
-            placement="left"
-        >
-            <DrawerOverlay />
-            <DrawerContent>
-            <DrawerHeader textAlign="center">
-                <HeadingDefault 
-                    color="rgb(100, 100, 100)"
-                    textAlign="center"
-                    fontSize={20}
-                >
-                    {title}
-                </HeadingDefault>
-            </DrawerHeader>
-            <DrawerBody>
-                <List width="100%" borderRadius={10} overflow="hidden">
-                    {itens.map((item) => {
-                        return (
-                            <ListItem
-                                width="100%"
-                                display="flex"
-                                alignItems="center"
-                                justifyContent="space-between"
-                                onClick={()=> onClick(item)}
-                                transition="all 0.5s"
-                                borderBottom="2px solid"
-                                borderColor="primary"
-                                padding="20px 5px"
-                                cursor="pointer"
-                                fontSize={35}
-                                _hover={itemSelectStyles}
-                                color="primary"
-                                backgroundColor="secondary"
-                                style={itemSelected?.id === item.id ? itemSelectStyles : itemDefaultStyles}
-                            >
-                                <TextDefault color="inherit">{item.description}</TextDefault>
-                                {
-                                    item.icon && <ListIcon fontSize="inherit" color="inherit" as={item.icon}/>
-                                }
-                            </ListItem>
-                        )
-                    })}
-                </List>
-            </DrawerBody>
-            </DrawerContent>
-        </Drawer>
+        <>
+            <Drawer
+                isOpen={openMenu}
+                onClose={() => setOpenMenu(false)}
+                placement="left"
+            >
+                <DrawerOverlay />
+                <DrawerContent>
+                <DrawerHeader textAlign="center">
+                    <HeadingDefault 
+                        color="rgb(100, 100, 100)"
+                        textAlign="center"
+                        fontSize={20}
+                    >
+                        {title}
+                    </HeadingDefault>
+                </DrawerHeader>
+                <DrawerBody>
+                    <List width="100%" borderRadius={10} overflow="hidden">
+                        {...itens.map((item) => {
+                            return (
+                                <ListItem
+                                    width="100%"
+                                    display="flex"
+                                    alignItems="center"
+                                    justifyContent="space-between"
+                                    onClick={()=> onClick(item)}
+                                    transition="all 0.5s"
+                                    borderBottom="2px solid"
+                                    borderColor="primary"
+                                    padding="20px 5px"
+                                    cursor="pointer"
+                                    fontSize={35}
+                                    _hover={itemSelectStyles}
+                                    color="primary"
+                                    backgroundColor="secondary"
+                                    style={itemSelected?.id === item.id ? itemSelectStyles : itemDefaultStyles}
+                                >
+                                    <TextDefault color="inherit">{item.description}</TextDefault>
+                                    {
+                                        item.icon && <ListIcon fontSize="inherit" color="inherit" as={item.icon}/>
+                                    }
+                                </ListItem>
+                            )
+                        })}
+                    </List>
+                </DrawerBody>
+                </DrawerContent>
+            </Drawer>
+            
+            <ButtonDefault
+                position="fixed"
+                top={10}
+                left={20}
+                width={20}
+                height={20}
+                borderRadius="100%"
+                as={AiOutlineMenuUnfold}
+                onClick={() => setOpenMenu(true)}
+            />
+        </>
     )
 }
