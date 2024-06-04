@@ -14,7 +14,6 @@ import AgentLoansPage from "./pages/agent/loans";
 import PrivateRoute from "./components/route/PrivateRoute";
 
 
-
 const routes: RouteObject[] = [
     {
         path: "*",

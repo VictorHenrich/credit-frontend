@@ -1,14 +1,23 @@
 import React from "react"
 import { AgentContext, AgentContextProps } from "../../../providers/agent";
-import TableDefault from "../../../components/table";
+import TableDefault, { TableActionsProps } from "../../../components/table";
 
 
-export default function AgentEmployeesTable(): React.ReactElement{
+export default function AgentEmployeesTable({
+    onDelete,
+    onEdit
+}: Pick<TableActionsProps, "onDelete" | "onEdit">): React.ReactElement{
     const {
         employees
     }: AgentContextProps = React.useContext(AgentContext);
+    
     return (
-        <TableDefault 
+        <TableDefault
+            actionsProps={{
+                onDelete,
+                onEdit,
+                has: true
+            }}
             body={employees.map(item => {
                 return {
                     data: item,

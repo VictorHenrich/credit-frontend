@@ -6,6 +6,10 @@ import { MdAdd } from "react-icons/md";
 import AgentEmployeesTable from "./table";
 import { AgentContext, AgentContextProps } from "../../../providers/agent";
 import LoadingDefault from "../../../components/loading";
+import AgentEmployeeModal from "./modal";
+import EmployeeEntity from "../../../entities/Employee";
+import ModalDefault from "../../../components/modal";
+import AgentEmployeeDialog from "./dialog";
 
 
 export default function AgentEmployeesPage(): React.ReactElement{
@@ -14,6 +18,12 @@ export default function AgentEmployeesPage(): React.ReactElement{
     }: AgentContextProps = React.useContext(AgentContext);
 
     const [openLoading, setOpenLoading] = React.useState<boolean>(false);
+
+    const [employeeSelected, setEmployeeSelected] = React.useState<EmployeeEntity | undefined>();
+
+    const [openModal, setOpenModal] = React.useState<boolean>(false);
+
+    const [openDialog, setOpenDialog] = React.useState<boolean>(false);
 
     async function handleLoadEmployees(): Promise<void>{
         setOpenLoading(true);
@@ -26,6 +36,26 @@ export default function AgentEmployeesPage(): React.ReactElement{
         }
 
         setOpenLoading(false);
+    }
+
+    async function createOrUpdateEmployee(employee: EmployeeEntity): Promise<void>{
+        
+    }
+
+    async function deleteEmployee(): Promise<void>{
+
+    }
+
+    function handleClickEditTable(employee: EmployeeEntity){
+        setEmployeeSelected(employee);
+
+        setOpenModal(true);
+    }
+
+    function handleClickDeleteTable(employee: EmployeeEntity){
+        setEmployeeSelected(employee);
+
+        setOpenDialog(true);
     }
 
     React.useEffect(()=> {
@@ -58,7 +88,13 @@ export default function AgentEmployeesPage(): React.ReactElement{
                         marginLeft={2}
                     />
                 </ButtonDefault>
-                <ButtonDefault width="auto">
+                <ButtonDefault 
+                    width="auto"
+                    onClick={() => {
+                        setEmployeeSelected(undefined);
+                        setOpenModal(true);
+                    }}
+                >
                     Novo Funcionário
                     <Icon 
                         as={MdAdd} 
@@ -67,8 +103,28 @@ export default function AgentEmployeesPage(): React.ReactElement{
                     />
                 </ButtonDefault>
             </Stack>
-            <AgentEmployeesTable />
+            <AgentEmployeesTable 
+                onEdit={({ data }) => handleClickEditTable(data)}
+                onDelete={({ data }) => handleClickDeleteTable(data)}
+            />
             <LoadingDefault open={openLoading}/>
+            <AgentEmployeeModal
+                open={openModal}
+                employee={employeeSelected}
+                onConfirm={(employee)=> createOrUpdateEmployee(employee)}
+                onClose={()=> {
+                    setOpenModal(false);
+                    setEmployeeSelected(undefined);
+                }}
+            />
+            <AgentEmployeeDialog
+                open={openDialog}
+                onClose={()=> {
+                    setOpenDialog(false);
+                    setEmployeeSelected(undefined);
+                }}
+                onConfirm={deleteEmployee}
+            />
         </Stack>
     )
 }

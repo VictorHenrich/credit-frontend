@@ -9,6 +9,7 @@ import {
     ListItem,
     ListIcon,
     As,
+    DrawerCloseButton,
   } from '@chakra-ui/react'
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { useNavigate, NavigateFunction } from 'react-router-dom';
@@ -74,6 +75,7 @@ export default function MenuDefault({
             >
                 <DrawerOverlay />
                 <DrawerContent>
+                <DrawerCloseButton />
                 <DrawerHeader textAlign="center">
                     <HeadingDefault 
                         color="rgb(100, 100, 100)"

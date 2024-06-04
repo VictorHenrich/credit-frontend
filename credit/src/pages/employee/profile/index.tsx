@@ -3,6 +3,9 @@ import { Avatar, Center, Stack, InputProps } from "@chakra-ui/react";
 import InputDefault from "../../../components/input";
 import { EmployeeContext, EmployeeContextProps } from "../../../providers/employee";
 import ButtonDefault from "../../../components/button";
+import EmployeeService from "../../../services/EmployeeService";
+import LoadingDefault from "../../../components/loading";
+import AlertDefault, { AlertDefaultProps } from "../../../components/alert";
 
 
 
@@ -14,6 +17,13 @@ export default function EmployeeProfilePage(): React.ReactElement{
         loadEmployee
     }: EmployeeContextProps = React.useContext<EmployeeContextProps>(EmployeeContext);
 
+    const [openLoading, setOpenLoading] = React.useState<boolean>(false);
+
+    const [alertProps, setAlertProps] = React.useState<AlertDefaultProps>({
+        open: false,
+        title: "",
+        description: "",
+    })
 
     const inputStyle: Partial<InputProps> = {
         _focus: {
@@ -25,6 +35,48 @@ export default function EmployeeProfilePage(): React.ReactElement{
     React.useEffect(()=>{
         loadEmployee();
     }, []);
+
+    async function loadProfile(): Promise<void>{
+        try{
+            await loadEmployee();
+
+        }catch(error){
+            handleAlertProps({
+                open: true,
+                status: "error",
+                description: "Falha ao carregar dados do perfil!"
+            });
+        }
+    }
+
+    async function updateProfile(): Promise<void>{
+        setOpenLoading(true);
+
+        try{
+            await EmployeeService.updateEmployee(employee);
+
+            handleAlertProps({
+                open: true,
+                status: "success",
+                description: "Perfil atualizado com sucesso!"
+            });
+
+        }catch(error){
+            handleAlertProps({
+                open: true,
+                status: "error",
+                description: "Falha ao realizar alteração de perfil!"
+            })
+        }
+
+        await loadProfile();
+
+        setOpenLoading(false);
+    }
+
+    function handleAlertProps(props: Partial<AlertDefaultProps>){
+        setAlertProps({ ...alertProps, ...props });
+    }
 
     return (
         <Stack 
@@ -108,7 +160,19 @@ export default function EmployeeProfilePage(): React.ReactElement{
                     }}
                 />
             </Stack>
-            <ButtonDefault width="20%">Alterar</ButtonDefault>
+            <ButtonDefault 
+                width="20%"
+                onClick={updateProfile}
+            >
+                Alterar
+            </ButtonDefault>
+            <LoadingDefault 
+                open={openLoading}
+            />
+            <AlertDefault 
+                {...alertProps}
+                onClose={()=> handleAlertProps({ open: false })}
+            />
         </Stack>
     )
 }

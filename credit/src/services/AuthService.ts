@@ -1,17 +1,19 @@
-import { AxiosInstance, InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios";
 import { NavigateFunction } from "react-router-dom";
 import api from "../utils/api";
 import UserEntity, { UserTypes } from "../entities/User";
+import { AXIOS_CONFIG } from "../utils/constantes";
+
 
 
 
 
 export default class AuthService{
-    static async refreshToken(
-        apiInstance: AxiosInstance,
-        request: InternalAxiosRequestConfig
-    ): Promise<InternalAxiosRequestConfig>{
+    static async refreshToken(request: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig>{
+        const apiInstance: AxiosInstance = axios.create(AXIOS_CONFIG);
+
         const token: string | null = localStorage.getItem(import.meta.env.VITE_TOKEN_DATA_NAME);
+        
 
         if(token){
             const data = { token };

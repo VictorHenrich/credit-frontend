@@ -4,7 +4,7 @@ import { Button, ButtonProps } from "@chakra-ui/react";
 
 export default function ButtonDefault(props: ButtonProps){
     return (
-        <Button 
+        <Button
             width="100%"
             cursor="pointer"
             height="45px"

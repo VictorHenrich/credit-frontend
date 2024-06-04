@@ -6,10 +6,7 @@ import { AXIOS_CONFIG } from "./constantes";
 const api: AxiosInstance = axios.create(AXIOS_CONFIG);
 
 api.interceptors.request.use(async (config) => {
-    return AuthService.refreshToken(
-        axios.create(AXIOS_CONFIG),
-        config
-    )
+    return AuthService.refreshToken(config);
 });
 
 export default api
