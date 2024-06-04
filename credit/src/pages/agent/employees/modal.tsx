@@ -5,7 +5,7 @@ import InputDefault from "../../../components/input";
 import EmployeeEntity from "../../../entities/Employee";
 
 
-export interface AgentEmployeeModalProps extends Pick<ModalDefaultProps, "open" | "onClose">{
+export interface AgentEmployeeModalProps extends Pick<ModalDefaultProps, "open" | "onClose" | "title" | "buttonEditName">{
     employee?: EmployeeEntity,
     onConfirm: (employee: EmployeeEntity) => void
 }
@@ -13,10 +13,12 @@ export interface AgentEmployeeModalProps extends Pick<ModalDefaultProps, "open" 
 export default function AgentEmployeeModal({
     employee,
     open,
+    title,
     onConfirm,
-    onClose
+    onClose,
+    buttonEditName
 }: AgentEmployeeModalProps): React.ReactElement{
-    const [employeeData, setEmployeeData] = React.useState<EmployeeEntity>({
+    const newEmployee: EmployeeEntity = {
         documentCPF: "",
         email: "",
         name: "",
@@ -24,24 +26,29 @@ export default function AgentEmployeeModal({
         salary: 0,
         score: 0,
         uuid: ""
-    });
+    }
+
+    const [employeeData, setEmployeeData] = React.useState<EmployeeEntity>(newEmployee);
 
     function setEmployee(props: Partial<EmployeeEntity>){
         setEmployeeData({ ...employeeData, ...props });
     }
 
     React.useEffect(()=> {
-        if(!employee) return;
+        setEmployee(employee || newEmployee);
+    }, [employee, open]);
 
-        setEmployee(employee);
-    }, [employee]);
 
     return (
         <ModalDefault 
             onClose={onClose}
             onConfirm={()=> onConfirm(employeeData)}
             open={open}
-            title="Cadastro de Funcionário"
+            title={title}
+            buttonEditName={buttonEditName}
+            buttonEditProps={{
+                backgroundColor: "green"
+            }}
         >
             <Stack
                 direction="column"
@@ -53,7 +60,7 @@ export default function AgentEmployeeModal({
                         fontSize: 15
                     }}
                     label="Nome" 
-                    color="secondary"
+                    color="primary"
                     inputProps={{
                         type: "text",
                         value: employeeData.name,
@@ -68,7 +75,7 @@ export default function AgentEmployeeModal({
                         color: "black",
                         fontSize: 15
                     }}
-                    color="secondary"
+                    color="primary"
                     inputProps={{
                         type: "text",
                         value: employeeData.documentCPF,
@@ -83,7 +90,7 @@ export default function AgentEmployeeModal({
                         color: "black",
                         fontSize: 15
                     }} 
-                    color="secondary"
+                    color="primary"
                     inputProps={{
                         type: "email",
                         value: employeeData.email,
@@ -98,12 +105,12 @@ export default function AgentEmployeeModal({
                         color: "black",
                         fontSize: 15
                     }}
-                    color="secondary"
+                    color="primary"
                     inputProps={{
-                        type: "text",
-                        value: `R$ ${employeeData.salary}`,
+                        type: "number",
+                        value: employeeData.salary,
                         onChange: ({target}) => {
-                            setEmployee({ salary: parseInt(target.value) || 0})
+                            setEmployee({ salary: parseInt(target.value)})
                         }
                     }}
                 />
@@ -114,7 +121,7 @@ export default function AgentEmployeeModal({
                         color: "black",
                         fontSize: 15
                     }} 
-                    color="secondary"
+                    color="primary"
                     inputProps={{
                         type: "text",
                         value: `${employeeData.score}`,
@@ -129,10 +136,10 @@ export default function AgentEmployeeModal({
                         color: "black",
                         fontSize: 15
                     }} 
-                    color="secondary"
+                    color="primary"
                     inputProps={{
                         type: "password",
-                        value: `${employeeData.password}`,
+                        value: employeeData.password,
                         onChange: ({target}) => {
                             setEmployee({ password: target.value})
                         },

@@ -3,12 +3,11 @@ import TextDefault from "../../../components/text";
 
 
 
-export default function AgentEmployeeDialog({
+export default function AgentLoanDialog({
     onClose,
     onConfirm,
     open
 }: Pick<ModalDefaultProps, "open" | "onClose" | "onConfirm">){
-   
     return (
         <ModalDefault
             onClose={onClose}

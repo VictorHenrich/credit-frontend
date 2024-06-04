@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
     Modal,
     ModalOverlay,
@@ -8,6 +8,7 @@ import {
     ModalBody,
     ModalCloseButton,
     Stack,
+    ButtonProps
 } from '@chakra-ui/react'
 import ButtonDefault from "../button";
 
@@ -18,7 +19,9 @@ export interface ModalDefaultProps extends React.PropsWithChildren{
     onConfirm: ()=> void,
     onClose: ()=> void,
     buttonEditName?: string,
-    buttonCancelName ?: string
+    buttonCancelName ?: string,
+    buttonEditProps?: Partial<ButtonProps>,
+    buttonCancelProps?: Partial<ButtonProps>
 }
 
 
@@ -29,7 +32,9 @@ export default function ModalDefault({
     onClose,
     children,
     buttonEditName = "Editar",
-    buttonCancelName = "Cancelar"
+    buttonCancelName = "Cancelar",
+    buttonEditProps = {},
+    buttonCancelProps = {}
 }: ModalDefaultProps): React.ReactElement{
     return (
         <Modal 
@@ -58,14 +63,17 @@ export default function ModalDefault({
                         color="secondary"
                         onClick={onConfirm}
                         width="auto"
+                        {...buttonEditProps}
                     >
                         {buttonEditName}
                     </ButtonDefault>
                     <ButtonDefault
-                        backgroundColor="primary"
+                        backgroundColor="gray"
+                        opacity={0.9}
                         color="secondary"
                         onClick={onClose}
                         width="auto"
+                        {...buttonCancelProps}
                     >
                         {buttonCancelName}
                     </ButtonDefault>

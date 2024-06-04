@@ -15,7 +15,9 @@ export default class LoanService{
     }
 
     static async updateLoan(loan: LoanEntity){
-        await api.put(import.meta.env.VITE_LOAN_UPDATE_URL, loan)
+        const url: string = `${import.meta.env.VITE_LOAN_UPDATE_URL}/${loan.uuid}`;
+
+        await api.put(url, loan);
     }
 
     static async deleteLoan(loan: LoanEntity){

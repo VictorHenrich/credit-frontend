@@ -23,11 +23,19 @@ export default class EmployeeService{
         await api.post(import.meta.env.VITE_EMPLOYEE_CREATION_URL, employee);
     }
 
+    static async updateEmployeeByUUID(employee: EmployeeEntity): Promise<void>{
+        const url: string = `${import.meta.env.VITE_EMPLOYEE_UPDATE_URL}/${employee.uuid}`;
+
+        await api.put(url, employee);
+    }
+
     static async updateEmployee(employee: EmployeeEntity): Promise<void>{
         await api.put(import.meta.env.VITE_EMPLOYEE_UPDATE_URL, employee);
     }
 
-    static async deleteEmployee(): Promise<void>{
-        await api.delete(import.meta.env.VITE_EMPLOYEE_EXCLUSION_URL);
+    static async deleteEmployee({ uuid }: Pick<EmployeeEntity, "uuid">): Promise<void>{
+        const url: string = `${import.meta.env.VITE_EMPLOYEE_EXCLUSION_URL}/${uuid}`;
+
+        await api.delete(url);
     }
 }

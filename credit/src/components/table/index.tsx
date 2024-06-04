@@ -52,11 +52,11 @@ export default function TableDefault({
 }: TableDefaultProps){
     return (
         <TableContainer width="100%" height="100%">
-            <Table 
-                variant='striped' 
+            <Table
+                backgroundColor="secondary"
                 color="primary"
             >
-                <Thead>
+                <Thead backgroundColor="tertiary">
                     <Tr>
                         {...header.map(item => (
                             <Th color="secondary" {...item}>

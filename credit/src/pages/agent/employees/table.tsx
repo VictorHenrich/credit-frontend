@@ -14,6 +14,7 @@ export default function AgentEmployeesTable({
     return (
         <TableDefault
             actionsProps={{
+                columnName: "Ações",
                 onDelete,
                 onEdit,
                 has: true

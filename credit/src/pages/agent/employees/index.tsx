@@ -6,10 +6,14 @@ import { MdAdd } from "react-icons/md";
 import AgentEmployeesTable from "./table";
 import { AgentContext, AgentContextProps } from "../../../providers/agent";
 import LoadingDefault from "../../../components/loading";
-import AgentEmployeeModal from "./modal";
+import AgentEmployeeModal, { AgentEmployeeModalProps } from "./modal";
 import EmployeeEntity from "../../../entities/Employee";
-import ModalDefault from "../../../components/modal";
 import AgentEmployeeDialog from "./dialog";
+import EmployeeService from "../../../services/EmployeeService";
+import AlertDefault, { AlertDefaultProps } from "../../../components/alert";
+
+
+type ModalParamProps = Pick<AgentEmployeeModalProps, "open" | "title" | "buttonEditName">;
 
 
 export default function AgentEmployeesPage(): React.ReactElement{
@@ -21,7 +25,17 @@ export default function AgentEmployeesPage(): React.ReactElement{
 
     const [employeeSelected, setEmployeeSelected] = React.useState<EmployeeEntity | undefined>();
 
-    const [openModal, setOpenModal] = React.useState<boolean>(false);
+    const [modalProps, setModalProps] = React.useState<ModalParamProps>({
+        open: false,
+        title: "Cadastro",
+        buttonEditName: "cadastrar"
+    });
+
+    const [alertProps, setAlertProps] = React.useState<AlertDefaultProps>({
+        open: false,
+        title: "",
+        description: "",
+    })
 
     const [openDialog, setOpenDialog] = React.useState<boolean>(false);
 
@@ -32,24 +46,120 @@ export default function AgentEmployeesPage(): React.ReactElement{
             await loadEmployees();
 
         }catch(error){
-
+            setAlertProps({
+                open: true,
+                status: "error",
+                description: "Falha ao carregar funcionários!"
+            });
         }
 
         setOpenLoading(false);
     }
 
-    async function createOrUpdateEmployee(employee: EmployeeEntity): Promise<void>{
-        
+
+    async function handleCreateEmployee(employee: EmployeeEntity): Promise<void>{
+        setOpenLoading(true);
+
+        try{
+            await EmployeeService.createEmployee(employee);
+
+            setAlertProps({
+                open: true,
+                status: "success",
+                description: "Funcionário criado com sucesso"
+            });
+
+        }catch(error){
+            setAlertProps({
+                open: true,
+                status: "error",
+                description: "Falha ao cadastrar usuário!"
+            });
+        }
+
+        setOpenLoading(false);
+    }
+
+
+    async function handleUpdateEmployee(employee: EmployeeEntity): Promise<void>{
+        setOpenLoading(true);
+
+        try{
+            await EmployeeService.updateEmployeeByUUID(employee);
+
+            setAlertProps({
+                open: true,
+                status: "success",
+                description: "Funcionário atualizado com sucesso!"
+            });
+
+        }catch(error){
+            setAlertProps({
+                open: true,
+                status: "error",
+                description: "Falha ao alterar funcionário!"
+            });
+        }
+
+        setOpenLoading(false);
     }
 
     async function deleteEmployee(): Promise<void>{
+        if(!employeeSelected) return;
 
+        setOpenDialog(false);
+
+        setEmployeeSelected(undefined);
+
+        setOpenLoading(true);
+
+        try{
+            await EmployeeService.deleteEmployee(employeeSelected);
+
+            setAlertProps({
+                open: true,
+                status: "success",
+                description: "Funcionário excluído com sucesso!"
+            });
+
+        }catch(error){
+            setAlertProps({
+                open: true,
+                status: "error",
+                description: "Falha ao excluir funcionário!"
+            });
+        }
+
+        setOpenLoading(false);
+
+        await handleLoadEmployees();
+    }
+
+    async function createOrUpdateEmployee(employee: EmployeeEntity): Promise<void>{
+        handleModalProps({
+            open: false,
+        })
+        
+        setEmployeeSelected(undefined);
+
+        if(!employee.uuid)
+            await handleCreateEmployee(employee);
+
+        else
+            await handleUpdateEmployee(employee);
+
+        await handleLoadEmployees();
+    }
+
+
+    function handleModalProps(props: Partial<ModalParamProps>): void{
+        setModalProps({ ...modalProps, ...props });
     }
 
     function handleClickEditTable(employee: EmployeeEntity){
         setEmployeeSelected(employee);
 
-        setOpenModal(true);
+        handleModalProps({ open: true });
     }
 
     function handleClickDeleteTable(employee: EmployeeEntity){
@@ -92,7 +202,11 @@ export default function AgentEmployeesPage(): React.ReactElement{
                     width="auto"
                     onClick={() => {
                         setEmployeeSelected(undefined);
-                        setOpenModal(true);
+
+                        handleModalProps({ 
+                            open: true,
+                            buttonEditName: "Cadastrar" 
+                        });
                     }}
                 >
                     Novo Funcionário
@@ -104,16 +218,21 @@ export default function AgentEmployeesPage(): React.ReactElement{
                 </ButtonDefault>
             </Stack>
             <AgentEmployeesTable 
-                onEdit={({ data }) => handleClickEditTable(data)}
+                onEdit={({ data }) => {
+                    handleClickEditTable(data);
+                    handleModalProps({ 
+                        buttonEditName: "Alterar",
+                        open: true
+                    });
+                }}
                 onDelete={({ data }) => handleClickDeleteTable(data)}
             />
-            <LoadingDefault open={openLoading}/>
             <AgentEmployeeModal
-                open={openModal}
+                { ...modalProps }
                 employee={employeeSelected}
                 onConfirm={(employee)=> createOrUpdateEmployee(employee)}
                 onClose={()=> {
-                    setOpenModal(false);
+                    handleModalProps({ open: false });
                     setEmployeeSelected(undefined);
                 }}
             />
@@ -125,6 +244,8 @@ export default function AgentEmployeesPage(): React.ReactElement{
                 }}
                 onConfirm={deleteEmployee}
             />
+            <LoadingDefault open={openLoading}/>
+            <AlertDefault {...alertProps}/>
         </Stack>
     )
 }
