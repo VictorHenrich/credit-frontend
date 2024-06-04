@@ -8,6 +8,7 @@ import {
     List,
     ListItem,
     ListIcon,
+    As,
   } from '@chakra-ui/react'
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { useNavigate, NavigateFunction } from 'react-router-dom';
@@ -19,7 +20,7 @@ import ButtonDefault from '../button';
 
 
 export interface ItemMenuProps{
-    icon: any,
+    icon: As,
     description: string,
     id: string,
     path?: string

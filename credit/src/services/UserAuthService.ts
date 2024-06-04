@@ -1,11 +1,13 @@
 import UserEntity, { UserTypes } from "../entities/User";
 import ServiceProps from "../utils/interfaces";
 import api from "../utils/api";
+import { NavigateFunction } from "react-router-dom";
 
 
 
 export interface UserAuthServiceProps extends UserEntity{
-    userType: UserTypes
+    userType: UserTypes,
+    navigator: NavigateFunction
 }
 
 
@@ -33,5 +35,9 @@ export default class UserAuthService implements ServiceProps<void>{
 
     async execute(): Promise<void>{
         await this.authenticate();
+
+        const path: string = this.props.userType == UserTypes.AGENT ? "/employee" : "/agent";
+
+        this.props.navigator(path);
     }
 }

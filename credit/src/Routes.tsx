@@ -8,6 +8,7 @@ import AgentPage from "./pages/agent";
 import NotFoundPage from "./pages/notFound";
 import EmployeeProfilePage from "./pages/employee/profile";
 import EmployeeLoansPage from "./pages/employee/loans";
+import LogoutPage from "./pages/logout";
 
 
 
@@ -19,6 +20,10 @@ const routes: RouteObject[] = [
     {
         path: "/",
         element: <HomePage />
+    },
+    {
+        path: "/logout",
+        element: <LogoutPage />
     },
     {
         path: "/agent",

@@ -1,11 +1,11 @@
 import React from "react";
-import { Input, InputProps, InputGroup, InputRightElement, Icon, TextProps, InputGroupProps } from "@chakra-ui/react";
+import { Input, InputProps, InputGroup, InputRightElement, Icon, TextProps, InputGroupProps, As } from "@chakra-ui/react";
 import TextDefault from "../text";
 
 
 
 export interface InputDefaultProps extends Partial<InputProps & InputGroupProps>{
-    icon?: any,
+    icon?: As,
     label?: string,
     labelProps?: Partial<TextProps>,
     inputProps?: Partial<InputProps>
@@ -38,7 +38,9 @@ export default function InputDefault({ icon, label, labelProps = {}, inputProps 
             {...props}
         >
             {label ? <TextDefault marginBottom={2} {...labelProps}>{label}</TextDefault> : undefined}
+            
             <InputCustom {...inputProps}/>
+            
             {icon ? (
                 <InputRightElement 
                 position="absolute"

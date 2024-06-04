@@ -7,11 +7,59 @@ import { EmailIcon, LockIcon } from "@chakra-ui/icons";
 import HeadingDefault from "../../components/heading";
 import TextDefault from "../../components/text";
 import LoadingDefault from "../../components/loading";
-import { UserTypes } from "../../entities/User";
+import UserEntity, { UserTypes } from "../../entities/User";
+import AlertDefault, { AlertDefaultProps } from "../../components/alert";
+import UserAuthService from "../../services/UserAuthService";
+import ServiceProps from "../../utils/interfaces";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
 
 export default function HomePage(): React.ReactElement{
-    const [typeUser, setTypeUser] = React.useState<UserTypes | null>(null);
+    const [userType, setUserType] = React.useState<UserTypes | null>(null);
+
+    const [userData, setUserData] = React.useState<UserEntity>({
+        email: "",
+        password: ""
+    })
+
+    const [openLoading, setOpenLoading] = React.useState<boolean>(false);
+
+    const [alertData, setAlertData] = React.useState<AlertDefaultProps>({
+        description: "",
+        status: "info",
+        open: false
+    });
+
+    const navigator: NavigateFunction = useNavigate();
+
+    function handleSetUserData(user: Partial<UserEntity>){
+        setUserData({ ...userData, ...user });
+    }
+
+    async function auth(): Promise<void>{
+        if(!userType) return;
+
+        setOpenLoading(true);
+
+        try{
+            const userAuthService: ServiceProps<void> = new UserAuthService({
+                ...userData,
+                userType,
+                navigator
+            });
+
+            await userAuthService.execute();
+
+        }catch(error){
+            setAlertData({
+                description: "Usuário ou senha estão inválidos",
+                open: true,
+                status: "error"
+            });
+        }
+
+        setOpenLoading(false);
+    }
 
     return (
         <Stack
@@ -35,7 +83,7 @@ export default function HomePage(): React.ReactElement{
                 bgGradient="linear-gradient(to right, secondary 0%, secondary 5%, primary 6%, primary 94%)"
             >
                 {
-                    !typeUser
+                    !userType
                         ? (
                             <Stack
                             direction="column"
@@ -55,9 +103,9 @@ export default function HomePage(): React.ReactElement{
                                 </TextDefault>
                             </Stack>
                             <ButtonDefault
-                                onClick={() => setTypeUser(UserTypes.EMPLOYEE)}
+                                onClick={() => setUserType(UserTypes.EMPLOYEE)}
                             >Sou funcionário</ButtonDefault>
-                            <ButtonDefault onClick={() => setTypeUser(UserTypes.EMPLOYEE)}>Sou Representante</ButtonDefault>
+                            <ButtonDefault onClick={() => setUserType(UserTypes.EMPLOYEE)}>Sou Representante</ButtonDefault>
                         </Stack>
                         )
 
@@ -80,16 +128,24 @@ export default function HomePage(): React.ReactElement{
                             </TextDefault>
                         </Stack>
                         <InputDefault 
-                            type="email"
-                            placeholder="Digite seu email..."
                             color="secondary"
                             icon={EmailIcon}
+                            inputProps={{
+                                type: "email",
+                                placeholder: "Digite seu email...",
+                                onChange: ({ target: { value: email } }) => handleSetUserData({ email })
+                            }}
                         />
                         <InputDefault 
                             type="password"
                             placeholder="Digite sua senha..."
                             color="secondary"
                             icon={LockIcon}
+                            inputProps={{
+                                type: "password",
+                                placeholder: "Digite sua senha...",
+                                onChange: ({ target: { value: password } }) => handleSetUserData({ password })
+                            }}
                         />
                         <Stack
                             width="100%"
@@ -108,6 +164,7 @@ export default function HomePage(): React.ReactElement{
                         <Center>
                             <ButtonDefault
                                 width="50%"
+                                onClick={()=> auth()}
                             >
                                 Acessar
                             </ButtonDefault>
@@ -118,7 +175,11 @@ export default function HomePage(): React.ReactElement{
                 
                 
             </Center>
-            <LoadingDefault open={false} />
+            <LoadingDefault open={openLoading} />
+            <AlertDefault 
+                {...alertData}
+                onClose={() => setAlertData({...alertData, open: false })}
+            />
         </Stack>
     );
 }
