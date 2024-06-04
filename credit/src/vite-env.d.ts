@@ -17,6 +17,7 @@ interface ImportMetaEnv {
     readonly VITE_AGENT_LOANS_PATH: string
     readonly VITE_HOME_PATH: string
     readonly VITE_LOGOUT_PATH: string
+    readonly VITE_EMPLOYEE_LISTING_URL: string
   }
   
   interface ImportMeta {
