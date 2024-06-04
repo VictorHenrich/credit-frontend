@@ -12,6 +12,6 @@ export default class UserLogoutService implements ServiceProps<void>{
     execute(): void{
         localStorage.removeItem(import.meta.env.VITE_TOKEN_DATA_NAME);
 
-        this.props.navigator("/");
+        this.props.navigator(import.meta.env.VITE_HOME_PATH);
     }
 }

@@ -10,7 +10,8 @@ import ButtonDefault from "../../../components/button";
 export default function EmployeeProfilePage(): React.ReactElement{
     const {
         employee,
-        setEmployee
+        setEmployee,
+        loadEmployee
     }: EmployeeContextProps = React.useContext<EmployeeContextProps>(EmployeeContext);
 
 
@@ -20,6 +21,10 @@ export default function EmployeeProfilePage(): React.ReactElement{
             color: "primary"
         }
     }
+
+    React.useEffect(()=>{
+        loadEmployee();
+    }, []);
 
     return (
         <Stack 
@@ -45,13 +50,15 @@ export default function EmployeeProfilePage(): React.ReactElement{
                 borderRadius={10}
                 borderWidth={5}
                 borderColor="rgba(255, 255, 255, 0.3)"
+                spacing={10}
             >
                 <InputDefault 
-                    type="text"
                     label="Nome"
                     width="50%"
-                    value={employee.name}
+                    color="secondary"
                     inputProps={{
+                        type: "text",
+                        value: employee.name,
                         onChange: ({target}) => {
                             setEmployee({ name: target.value})
                         },
@@ -60,11 +67,12 @@ export default function EmployeeProfilePage(): React.ReactElement{
                     
                 />
                 <InputDefault 
-                    type="email" 
+                    label="Email" 
                     width="50%"
-                    label="Email"
-                    value={employee.email}
+                    color="secondary"
                     inputProps={{
+                        type: "email",
+                        value: employee.email,
                         onChange: ({target}) => {
                             setEmployee({ email: target.value})
                         },
@@ -73,11 +81,12 @@ export default function EmployeeProfilePage(): React.ReactElement{
                 />
 
                 <InputDefault 
-                    type="text"
                     width="50%"
                     label="CPF"
-                    value={employee.documentCPF}
+                    color="secondary"
                     inputProps={{
+                        type: "text",
+                        value: employee.documentCPF,
                         onChange: ({target}) => {
                             setEmployee({ documentCPF: target.value})
                         },
@@ -86,13 +95,14 @@ export default function EmployeeProfilePage(): React.ReactElement{
                 />
 
                 <InputDefault 
-                    type="number"
                     width="50%"
                     label="Salário" 
-                    value={`R$ ${employee.salary}`}
+                    color="secondary"
                     inputProps={{
+                        type: "text",
+                        value: `R$ ${employee.salary}`,
                         onChange: ({target}) => {
-                            setEmployee({ salary: parseInt(target.value)})
+                            setEmployee({ salary: parseInt(target.value) || 0})
                         },
                         ...inputStyle
                     }}

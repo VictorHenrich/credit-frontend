@@ -16,7 +16,7 @@ export const DEFAULT_ITENS_MENU: ItemMenuProps[] = [
         description: "Sair",
         icon: BiLogOut,
         id: "logout",
-        path: "/logout"
+        path: import.meta.env.VITE_LOGOUT_PATH
     }
 ]
 
@@ -26,13 +26,13 @@ export const EMPLOYEE_ITENS_MENU: ItemMenuProps[] = [
         description: "Perfil",
         icon: FaUserCheck,
         id: "profile",
-        path: "/employee/profile"
+        path: import.meta.env.VITE_EMPLOYEE_PROFILE_PATH
     },
     {
         description: "Empréstimos",
         icon: BsCreditCard2FrontFill,
         id: "loan",
-        path: "/employee/loans"
+        path: import.meta.env.VITE_EMPLOYEE_LOANS_PATH
     },
     ...DEFAULT_ITENS_MENU
 ]
@@ -43,13 +43,13 @@ export const AGENT_ITENS_MENU: ItemMenuProps[] = [
         description: "Funcionários",
         icon: FaPeopleGroup,
         id: "employees",
-        path: "/agent/employees"
+        path: import.meta.env.VITE_AGENT_EMPLOYEES_PATH
     },
     {
         description: "Emprestimos",
         icon: BsCreditCard2FrontFill,
         id: "loans",
-        path: "/agent/loans"
+        path: import.meta.env.VITE_AGENT_LOANS_PATH
     },
     ...DEFAULT_ITENS_MENU
 ]

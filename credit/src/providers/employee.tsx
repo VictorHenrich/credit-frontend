@@ -1,6 +1,8 @@
 import React from "react";
 import EmployeeEntity from "../entities/Employee";
 import EmployeeLoanEntity from "../entities/EmployeeLoan";
+import ServiceProps from "../utils/interfaces";
+import EmployeeCaptureService from "../services/EmployeeCaptureService";
 
 
 
@@ -39,7 +41,11 @@ export default function EmployeeProvider({ children }: React.PropsWithChildren):
     const [loans, setLoans] = React.useState<Omit<EmployeeLoanEntity[], "employee">>(valueContext.loans);
 
     async function loadEmployee(): Promise<void>{
-        setEmployee(valueContext.employee);
+        const employeeCaptureService: ServiceProps<EmployeeEntity> = new EmployeeCaptureService();
+
+        const employee: EmployeeEntity = await employeeCaptureService.execute();
+
+        setEmployee({...employee });
     }
 
     async function loadLoans(): Promise<void>{

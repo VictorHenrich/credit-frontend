@@ -31,7 +31,7 @@ export default function AgentEmployeesPage(): React.ReactElement{
                     />
                 </ButtonDefault>
                 <ButtonDefault width="auto">
-                    Criar Empréstimo
+                    Novo Funcionário
                     <Icon 
                         as={MdAdd} 
                         fontSize={20}

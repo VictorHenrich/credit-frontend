@@ -20,37 +20,37 @@ const routes: RouteObject[] = [
         element: <NotFoundPage />
     },
     {
-        path: "/",
+        path: import.meta.env.VITE_HOME_PATH,
         element: <HomePage />
     },
     {
-        path: "/logout",
+        path: import.meta.env.VITE_LOGOUT_PATH,
         element: <LogoutPage />
     },
     {
-        path: "/agent",
+        path: import.meta.env.VITE_AGENT_MAIN_PATH,
         element: <AgentPage />,
         children: [
             {
-                path: "/agent/employees",
+                path: import.meta.env.VITE_AGENT_EMPLOYEES_PATH,
                 element: <AgentEmployeesPage />
             },
             {
-                path: "/agent/loans",
+                path: import.meta.env.VITE_AGENT_LOANS_PATH,
                 element: <AgentLoansPage />
             }
         ]
     },
     {
-        path: "/employee",
+        path: import.meta.env.VITE_EMPLOYEE_MAIN_PATH,
         element: <EmployeePage />,
         children: [
             {
-                path: "/employee/profile",
+                path: import.meta.env.VITE_EMPLOYEE_PROFILE_PATH,
                 element: <EmployeeProfilePage />
             },
             {
-                path: "/employee/loans",
+                path: import.meta.env.VITE_EMPLOYEE_LOANS_PATH,
                 element: <EmployeeLoansPage />
             }
         ]

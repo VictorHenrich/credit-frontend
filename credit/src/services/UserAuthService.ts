@@ -13,18 +13,14 @@ export interface UserAuthServiceProps extends UserEntity{
 
 
 export default class UserAuthService implements ServiceProps<void>{
-    static agentAuthUrl: string = import.meta.env.VITE_AGENT_AUTH_URL;
-
-    static employeeAuthUrl: string = import.meta.env.VITE_EMPLOYEE_AUTH_URL;
-
     constructor(
         private readonly props: UserAuthServiceProps
     ){}
 
     private async authenticate(): Promise<void>{
         const url: string = this.props.userType === UserTypes.EMPLOYEE
-            ? UserAuthService.employeeAuthUrl
-            : UserAuthService.agentAuthUrl
+            ? import.meta.env.VITE_EMPLOYEE_AUTH_URL
+            : import.meta.env.VITE_AGENT_AUTH_URL
 
         const data: UserEntity = { ...this.props };
 
@@ -36,7 +32,10 @@ export default class UserAuthService implements ServiceProps<void>{
     async execute(): Promise<void>{
         await this.authenticate();
 
-        const path: string = this.props.userType == UserTypes.EMPLOYEE ? "/employee" : "/agent";
+        const path: string = 
+            this.props.userType == UserTypes.EMPLOYEE 
+                ? import.meta.env.VITE_EMPLOYEE_PROFILE_PATH 
+                : import.meta.env.VITE_AGENT_MAIN_PATH;
 
         this.props.navigator(path);
     }
