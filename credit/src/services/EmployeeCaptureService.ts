@@ -5,7 +5,7 @@ import ServiceProps from "../utils/interfaces";
 
 
 export default class EmployeeCaptureService implements ServiceProps<EmployeeEntity>{
-    static employeeCaptureUrl: string = import.meta.env.EMPLOYEE_CAPTURE_URL;
+    static employeeCaptureUrl: string = import.meta.env.VITE_EMPLOYEE_CAPTURE_URL;
 
     async execute(): Promise<EmployeeEntity> {
         const { data: employee } = await api.get(EmployeeCaptureService.employeeCaptureUrl);

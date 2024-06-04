@@ -10,7 +10,7 @@ export interface RefreshTokenServiceProps{
 
 
 export default class RefreshTokenService implements ServiceProps<InternalAxiosRequestConfig>{
-    private static refreshTokenUrl: string = import.meta.env.REFRESH_TOKEN_URL
+    private static refreshTokenUrl: string = import.meta.env.VITE_REFRESH_TOKEN_URL
 
     constructor(
         private props: RefreshTokenServiceProps
@@ -21,13 +21,13 @@ export default class RefreshTokenService implements ServiceProps<InternalAxiosRe
 
         const { data: newToken } = await this.props.apiInstance.post(RefreshTokenService.refreshTokenUrl, data);
 
-        localStorage.setItem(import.meta.env.TOKEN_DATA_NAME, newToken);
+        localStorage.setItem(import.meta.env.VITE_TOKEN_DATA_NAME, newToken);
 
         return newToken;
     }
 
     async execute(): Promise<InternalAxiosRequestConfig>{
-        const token: string | null = localStorage.getItem(import.meta.env.TOKEN_DATA_NAME);
+        const token: string | null = localStorage.getItem(import.meta.env.VITE_TOKEN_DATA_NAME);
 
         if(token){
             const newToken: string = await this.refreshToken(token);

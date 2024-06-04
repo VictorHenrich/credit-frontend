@@ -13,9 +13,9 @@ export interface UserAuthServiceProps extends UserEntity{
 
 
 export default class UserAuthService implements ServiceProps<void>{
-    static agentAuthUrl: string = import.meta.env.AGENT_AUTH_URL;
+    static agentAuthUrl: string = import.meta.env.VITE_AGENT_AUTH_URL;
 
-    static employeeAuthUrl: string = import.meta.env.EMPLOYEE_AUTH_URL;
+    static employeeAuthUrl: string = import.meta.env.VITE_EMPLOYEE_AUTH_URL;
 
     constructor(
         private readonly props: UserAuthServiceProps
@@ -30,7 +30,7 @@ export default class UserAuthService implements ServiceProps<void>{
 
         const { data: token } = await api.post(url, data);
 
-        localStorage.setItem(import.meta.env.TOKEN_DATA_NAME, token);
+        localStorage.setItem(import.meta.env.VITE_TOKEN_DATA_NAME, token);
     } 
 
     async execute(): Promise<void>{
