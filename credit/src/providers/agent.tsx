@@ -1,12 +1,12 @@
 import React from "react";
-import AgentEntity from "../entities/Agent";
 import LoanEntity from "../entities/Loan";
+import EmployeeEntity from "../entities/Employee";
 
 
 
 
 export interface AgentContextProps{
-    agent: AgentEntity,
+    employees: EmployeeEntity[],
     loans: LoanEntity[],
     loadAgent: () => Promise<void>,
     loadLoans: () => Promise<void>
@@ -14,28 +14,22 @@ export interface AgentContextProps{
 
 
 const valueContext: AgentContextProps = {
-    agent: {
-        documentCPF: "",
-        email: "",
-        name: "",
-        password: "",
-        uuid: ""
-    },
+    employees: [],
     loans: [],
     loadAgent: async ()=> undefined,
     loadLoans: async ()=> undefined
 }
 
-const AgentContext: React.Context<AgentContextProps> = React.createContext<AgentContextProps>(valueContext);
+export const AgentContext: React.Context<AgentContextProps> = React.createContext<AgentContextProps>(valueContext);
 
 
 export default function AgentProvider({ children }: React.PropsWithChildren): React.ReactElement{
-    const [agent, setAgent] = React.useState<AgentEntity>(valueContext.agent);
+    const [employees, setEmployees] = React.useState<EmployeeEntity[]>(valueContext.employees);
 
     const [loans, setLoans] = React.useState<LoanEntity[]>(valueContext.loans);
 
     async function loadAgent(): Promise<void>{
-        setAgent(valueContext.agent);
+        setEmployees(valueContext.employees);
     }
 
     async function loadLoans(): Promise<void>{
@@ -44,7 +38,7 @@ export default function AgentProvider({ children }: React.PropsWithChildren): Re
     
     return (
         <AgentContext.Provider value={{
-            agent,
+            employees,
             loans,
             loadAgent,
             loadLoans

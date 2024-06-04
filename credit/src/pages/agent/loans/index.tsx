@@ -1,12 +1,12 @@
 import React from "react";
 import { Stack, Icon } from "@chakra-ui/react";
-import EmployeeLoansTable from "./table";
 import ButtonDefault from "../../../components/button";
 import { MdOutlineSearch } from "react-icons/md";
 import { MdAdd } from "react-icons/md";
+import AgentLoansTable from "./table";
 
 
-export default function EmployeeLoansPage(): React.ReactElement{
+export default function AgentLoansPage(): React.ReactElement{
     return (
         <Stack 
             width="80%" 
@@ -31,7 +31,7 @@ export default function EmployeeLoansPage(): React.ReactElement{
                     />
                 </ButtonDefault>
                 <ButtonDefault width="auto">
-                    Solicitar emprestimo
+                    Criar Empréstimo
                     <Icon 
                         as={MdAdd} 
                         fontSize={20}
@@ -39,7 +39,7 @@ export default function EmployeeLoansPage(): React.ReactElement{
                     />
                 </ButtonDefault>
             </Stack>
-            <EmployeeLoansTable />
+            <AgentLoansTable />
         </Stack>
     )
 }

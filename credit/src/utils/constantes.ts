@@ -1,9 +1,24 @@
 import { FaUserCheck } from "react-icons/fa";
 import { ItemMenuProps } from "../components/menu";
-import { BsBuildingsFill, BsCreditCard2FrontFill } from "react-icons/bs";
+import { BsCreditCard2FrontFill } from "react-icons/bs";
 import { BiLogOut } from "react-icons/bi";
 import { FaPeopleGroup } from "react-icons/fa6";
+import { CreateAxiosDefaults } from "axios";
 
+
+export const AXIOS_CONFIG: CreateAxiosDefaults = {
+    baseURL: import.meta.env.VITE_BASE_URL,
+}
+
+
+export const DEFAULT_ITENS_MENU: ItemMenuProps[] = [
+    {
+        description: "Sair",
+        icon: BiLogOut,
+        id: "logout",
+        path: "/logout"
+    }
+]
 
 
 export const EMPLOYEE_ITENS_MENU: ItemMenuProps[] = [
@@ -19,34 +34,22 @@ export const EMPLOYEE_ITENS_MENU: ItemMenuProps[] = [
         id: "loan",
         path: "/employee/loans"
     },
-    {
-        description: "Sair",
-        icon: BiLogOut,
-        id: "logout",
-        path: "/logout"
-    }
+    ...DEFAULT_ITENS_MENU
 ]
 
 
 export const AGENT_ITENS_MENU: ItemMenuProps[] = [
     {
-        description: "Empresa",
-        icon: BsBuildingsFill,
-        id: "profile"
-    },
-    {
         description: "Funcionários",
         icon: FaPeopleGroup,
-        id: "loan"
+        id: "employees",
+        path: "/agent/employees"
     },
     {
         description: "Emprestimos",
         icon: BsCreditCard2FrontFill,
-        id: "bank"
+        id: "loans",
+        path: "/agent/loans"
     },
-    {
-        description: "Sair",
-        icon: BiLogOut,
-        id: "logout"
-    }
+    ...DEFAULT_ITENS_MENU
 ]

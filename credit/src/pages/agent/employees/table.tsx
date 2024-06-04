@@ -1,15 +1,15 @@
 import React from "react";
-import Moment from "moment";
 import { Table, TableContainer, Thead, Tbody, Tr, Td, Th } from "@chakra-ui/react";
-import { EmployeeContext, EmployeeContextProps } from "../../../providers/employee";
+import { AgentContext, AgentContextProps } from "../../../providers/agent";
 
 
-export default function EmployeeLoansTable(): React.ReactElement{
+
+export default function AgentEmployeesTable(): React.ReactElement{
     const {
-        loans
-    }: EmployeeContextProps = React.useContext(EmployeeContext);
+        employees
+    }: AgentContextProps = React.useContext(AgentContext);
 
-    const columns: string[] = ["Empréstimo", "Data", "Valor"];
+    const columns: string[] = ["Nome", "CPF", "Salário", "Pontuação"];
 
     return (
         <TableContainer width="100%" height="100%">
@@ -20,12 +20,13 @@ export default function EmployeeLoansTable(): React.ReactElement{
                     ))}
                 </Thead>
                 <Tbody>
-                    {...loans.map(item => {
+                    {...employees.map(item => {
                         return (
                             <Tr>
-                                <Td>{item.loan.description}</Td>
-                                <Td>{Moment(item.created).format("DD/MM/YYYY")}</Td>
-                                <Td>{item.value}</Td>
+                                <Td>{item.name}</Td>
+                                <Td >{item.documentCPF}</Td>
+                                <Td isNumeric>{item.salary}</Td>
+                                <Td isNumeric>{item.score}</Td>
                             </Tr>
                         )
                     })}

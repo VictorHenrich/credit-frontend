@@ -22,21 +22,21 @@ export default class UserAuthService implements ServiceProps<void>{
     ){}
 
     private async authenticate(): Promise<void>{
-        const url: string = this.props.userType === UserTypes.AGENT
-            ? UserAuthService.agentAuthUrl
-            : UserAuthService.employeeAuthUrl
+        const url: string = this.props.userType === UserTypes.EMPLOYEE
+            ? UserAuthService.employeeAuthUrl
+            : UserAuthService.agentAuthUrl
 
         const data: UserEntity = { ...this.props };
 
-        const { data: token } = await api.post(url, data);
+        const { data: { data: { refreshToken } } } = await api.post(url, data);
 
-        localStorage.setItem(import.meta.env.VITE_TOKEN_DATA_NAME, token);
+        localStorage.setItem(import.meta.env.VITE_TOKEN_DATA_NAME, refreshToken);
     } 
 
     async execute(): Promise<void>{
         await this.authenticate();
 
-        const path: string = this.props.userType == UserTypes.AGENT ? "/employee" : "/agent";
+        const path: string = this.props.userType == UserTypes.EMPLOYEE ? "/employee" : "/agent";
 
         this.props.navigator(path);
     }

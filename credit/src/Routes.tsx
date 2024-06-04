@@ -9,6 +9,8 @@ import NotFoundPage from "./pages/notFound";
 import EmployeeProfilePage from "./pages/employee/profile";
 import EmployeeLoansPage from "./pages/employee/loans";
 import LogoutPage from "./pages/logout";
+import AgentEmployeesPage from "./pages/agent/employees";
+import AgentLoansPage from "./pages/agent/loans";
 
 
 
@@ -28,6 +30,16 @@ const routes: RouteObject[] = [
     {
         path: "/agent",
         element: <AgentPage />,
+        children: [
+            {
+                path: "/agent/employees",
+                element: <AgentEmployeesPage />
+            },
+            {
+                path: "/agent/loans",
+                element: <AgentLoansPage />
+            }
+        ]
     },
     {
         path: "/employee",
