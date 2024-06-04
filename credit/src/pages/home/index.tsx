@@ -9,8 +9,7 @@ import TextDefault from "../../components/text";
 import LoadingDefault from "../../components/loading";
 import UserEntity, { UserTypes } from "../../entities/User";
 import AlertDefault, { AlertDefaultProps } from "../../components/alert";
-import UserAuthService from "../../services/UserAuthService";
-import ServiceProps from "../../utils/interfaces";
+import AuthService from "../../services/AuthService";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 
 
@@ -42,13 +41,8 @@ export default function HomePage(): React.ReactElement{
         setOpenLoading(true);
 
         try{
-            const userAuthService: ServiceProps<void> = new UserAuthService({
-                ...userData,
-                userType,
-                navigator
-            });
 
-            await userAuthService.execute();
+            await AuthService.authenticate(userType, navigator, userData);
 
         }catch(error){
             setAlertData({

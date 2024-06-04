@@ -1,8 +1,8 @@
 import React from "react";
 import LoanEntity from "../entities/Loan";
 import EmployeeEntity from "../entities/Employee";
-import ServiceProps from "../utils/interfaces";
-import EmployeeListingService from "../services/EmployeeListingService";
+import EmployeeService from "../services/EmployeeService";
+import LoanService from "../services/LoanService";
 
 
 
@@ -31,15 +31,15 @@ export default function AgentProvider({ children }: React.PropsWithChildren): Re
     const [loans, setLoans] = React.useState<LoanEntity[]>(valueContext.loans);
 
     async function loadEmployees(): Promise<void>{
-        const employeeListingService: ServiceProps<EmployeeEntity[]> = new EmployeeListingService();
-
-        const employees: EmployeeEntity[] = await employeeListingService.execute();
+        const employees: EmployeeEntity[] = await EmployeeService.findEmplowees();
 
         setEmployees(employees);
     }
 
     async function loadLoans(): Promise<void>{
-        setLoans(valueContext.loans);
+        const loans: LoanEntity[] = await LoanService.findLoans();
+
+        setLoans(loans);
     }
     
     return (

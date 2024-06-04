@@ -1,38 +1,41 @@
-import React from "react";
-import { Table, TableContainer, Thead, Tbody, Tr, Td, Th } from "@chakra-ui/react";
+import React from "react"
 import { AgentContext, AgentContextProps } from "../../../providers/agent";
-
+import TableDefault from "../../../components/table";
 
 
 export default function AgentEmployeesTable(): React.ReactElement{
     const {
         employees
     }: AgentContextProps = React.useContext(AgentContext);
-
-    const columns: string[] = ["Nome", "CPF", "Salário", "Pontuação"];
-
     return (
-        <TableContainer width="100%" height="100%">
-            <Table variant='striped' color="secondary">
-                <Thead>
-                    {...columns.map(column => (
-                        <Th color="secondary">{column}</Th>
-                    ))}
-                </Thead>
-                <Tbody>
-                    {...employees.map(item => {
-                        return (
-                            <Tr>
-                                <Td>{item.name}</Td>
-                                <Td >{item.documentCPF}</Td>
-                                <Td isNumeric>{item.salary}</Td>
-                                <Td isNumeric>{item.score}</Td>
-                            </Tr>
-                        )
-                    })}
-
-                </Tbody>
-            </Table>
-        </TableContainer>
+        <TableDefault 
+            body={employees.map(item => {
+                return {
+                    data: item,
+                    rows: [
+                        {
+                            value: item.name
+                        },
+                        {
+                            value: item.documentCPF,
+                        },
+                        {
+                            value: item.salary,
+                            isNumeric: true
+                        },
+                        {
+                            value: item.score,
+                            isNumeric: true
+                        }
+                    ]
+                }
+            })}
+            header={[
+                {value: "Nome", textAlign: "left"},
+                {value: "CPF", textAlign: "left"},
+                {value: "Salário", isNumeric: true},
+                {value: "Pontuação", isNumeric: true}
+            ]}
+        />
     )
 }

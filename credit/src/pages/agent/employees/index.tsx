@@ -5,6 +5,7 @@ import { MdOutlineSearch } from "react-icons/md";
 import { MdAdd } from "react-icons/md";
 import AgentEmployeesTable from "./table";
 import { AgentContext, AgentContextProps } from "../../../providers/agent";
+import LoadingDefault from "../../../components/loading";
 
 
 export default function AgentEmployeesPage(): React.ReactElement{
@@ -12,8 +13,23 @@ export default function AgentEmployeesPage(): React.ReactElement{
         loadEmployees
     }: AgentContextProps = React.useContext(AgentContext);
 
+    const [openLoading, setOpenLoading] = React.useState<boolean>(false);
+
+    async function handleLoadEmployees(): Promise<void>{
+        setOpenLoading(true);
+
+        try{
+            await loadEmployees();
+
+        }catch(error){
+
+        }
+
+        setOpenLoading(false);
+    }
+
     React.useEffect(()=> {
-        loadEmployees();
+        handleLoadEmployees();
     }, []);
 
     return (
@@ -31,7 +47,10 @@ export default function AgentEmployeesPage(): React.ReactElement{
                 align="center"
                 justify="flex-end"
             >
-                <ButtonDefault width="auto">
+                <ButtonDefault 
+                    width="auto"
+                    onClick={handleLoadEmployees}
+                >
                     Procurar
                     <Icon 
                         as={MdOutlineSearch} 
@@ -49,6 +68,7 @@ export default function AgentEmployeesPage(): React.ReactElement{
                 </ButtonDefault>
             </Stack>
             <AgentEmployeesTable />
+            <LoadingDefault open={openLoading}/>
         </Stack>
     )
 }

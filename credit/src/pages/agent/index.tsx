@@ -1,12 +1,20 @@
+import React from "react";
 import MenuDefault from "../../components/menu";
-import { Outlet } from "react-router-dom";
+import { NavigateFunction, Outlet, useNavigate } from "react-router-dom";
 import AgentProvider from "../../providers/agent";
 import { AGENT_ITENS_MENU } from "../../utils/constantes";
 import { Center } from "@chakra-ui/react";
 
 
 
+
 export default function AgentPage(){
+    const navigator: NavigateFunction = useNavigate();
+
+    React.useEffect(()=> {
+        navigator(import.meta.env.VITE_AGENT_EMPLOYEES_PATH);
+    }, []);
+
     return (
         <AgentProvider>
             <MenuDefault

@@ -18,6 +18,16 @@ interface ImportMetaEnv {
     readonly VITE_HOME_PATH: string
     readonly VITE_LOGOUT_PATH: string
     readonly VITE_EMPLOYEE_LISTING_URL: string
+    readonly VITE_LOAN_LISTING_URL: string
+    readonly VITE_LOAN_CAPTURE_URL: string
+    readonly VITE_LOAN_CREATION_URL: string
+    readonly VITE_LOAN_UPDATE_URL: string
+    readonly VITE_LOAN_EXCLUSION_URL: string
+    readonly VITE_EMPLOYEE_CREATION_URL: string
+    readonly VITE_EMPLOYEE_UPDATE_URL: string
+    readonly VITE_EMPLOYEE_EXCLUSION_URL: string
+    readonly VITE_EMPLOYEE_LOAN_LISTING_URL: string
+    readonly VITE_EMPLOYEE_LOAN_CREATION_URL: string
   }
   
   interface ImportMeta {

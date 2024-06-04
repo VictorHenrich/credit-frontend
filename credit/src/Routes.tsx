@@ -11,6 +11,7 @@ import EmployeeLoansPage from "./pages/employee/loans";
 import LogoutPage from "./pages/logout";
 import AgentEmployeesPage from "./pages/agent/employees";
 import AgentLoansPage from "./pages/agent/loans";
+import PrivateRoute from "./components/route/PrivateRoute";
 
 
 
@@ -29,29 +30,29 @@ const routes: RouteObject[] = [
     },
     {
         path: import.meta.env.VITE_AGENT_MAIN_PATH,
-        element: <AgentPage />,
+        element: <PrivateRoute element={<AgentPage />}/>,
         children: [
             {
                 path: import.meta.env.VITE_AGENT_EMPLOYEES_PATH,
-                element: <AgentEmployeesPage />
+                element: <PrivateRoute element={<AgentEmployeesPage />}/>
             },
             {
                 path: import.meta.env.VITE_AGENT_LOANS_PATH,
-                element: <AgentLoansPage />
+                element: <PrivateRoute element={<AgentLoansPage />}/>
             }
         ]
     },
     {
         path: import.meta.env.VITE_EMPLOYEE_MAIN_PATH,
-        element: <EmployeePage />,
+        element: <PrivateRoute element={<EmployeePage />}/>,
         children: [
             {
                 path: import.meta.env.VITE_EMPLOYEE_PROFILE_PATH,
-                element: <EmployeeProfilePage />
+                element: <PrivateRoute element={<EmployeeProfilePage />}/>
             },
             {
                 path: import.meta.env.VITE_EMPLOYEE_LOANS_PATH,
-                element: <EmployeeLoansPage />
+                element: <PrivateRoute element={<EmployeeLoansPage />}/>
             }
         ]
     }

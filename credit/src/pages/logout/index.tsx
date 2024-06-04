@@ -1,7 +1,7 @@
 import React from "react";
 import { Stack, Spinner } from "@chakra-ui/react";
 import HeadingDefault from "../../components/heading";
-import UserLogoutService from "../../services/UserLogoutService";
+import AuthService from "../../services/AuthService";
 import { useNavigate } from "react-router-dom";
 
 
@@ -12,10 +12,7 @@ export default function LogoutPage(): React.ReactElement{
 
     React.useEffect(()=> {    
         setTimeout(()=> {
-            const logoutService = new UserLogoutService({ navigator });
-
-            logoutService.execute();
-
+            AuthService.logout(navigator);
         }, 1000);
     }, []);
 

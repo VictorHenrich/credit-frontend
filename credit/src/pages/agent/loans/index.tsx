@@ -4,9 +4,33 @@ import ButtonDefault from "../../../components/button";
 import { MdOutlineSearch } from "react-icons/md";
 import { MdAdd } from "react-icons/md";
 import AgentLoansTable from "./table";
+import { AgentContext, AgentContextProps } from "../../../providers/agent";
+import LoadingDefault from "../../../components/loading";
 
 
 export default function AgentLoansPage(): React.ReactElement{
+    const {
+        loadLoans
+    }: AgentContextProps = React.useContext(AgentContext);
+
+    const [openLoading, setOpenLoading] = React.useState<boolean>(false);
+
+    async function handleLoadLoans(){
+        setOpenLoading(true);
+
+        try{
+            await loadLoans();
+        }catch(error){
+
+        }
+
+        setOpenLoading(false);
+    }
+
+    React.useEffect(()=> {
+        handleLoadLoans()
+    }, []);
+
     return (
         <Stack 
             width="80%" 
@@ -22,7 +46,10 @@ export default function AgentLoansPage(): React.ReactElement{
                 align="center"
                 justify="flex-end"
             >
-                <ButtonDefault width="auto">
+                <ButtonDefault 
+                    width="auto"
+                    onClick={handleLoadLoans}
+                >
                     Procurar
                     <Icon 
                         as={MdOutlineSearch} 
@@ -40,6 +67,7 @@ export default function AgentLoansPage(): React.ReactElement{
                 </ButtonDefault>
             </Stack>
             <AgentLoansTable />
+            <LoadingDefault open={openLoading}/>
         </Stack>
     )
 }

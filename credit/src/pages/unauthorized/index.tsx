@@ -1,20 +1,17 @@
 import React from "react";
-import { Center, Image, Stack } from "@chakra-ui/react";
+import { Center, Stack, Image } from "@chakra-ui/react";
 import HeadingDefault from "../../components/heading";
-import NotFoundImage from "../../assets/notfound.png";
+import UnauthorizedImage from "../../assets/unauthorized.jpg"
 import ButtonDefault from "../../components/button";
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import { useNavigate, NavigateFunction } from "react-router-dom";
 
 
-
-export default function NotFoundPage(): React.ReactElement{
-
+export default function UnauthorizedPage(): React.ReactElement{
     const navigator: NavigateFunction = useNavigate();
 
     function handleClick(){
         navigator(import.meta.env.VITE_HOME_PATH);
     }
-
 
     return (
         <Center width="100vw" height="100vh">
@@ -28,10 +25,10 @@ export default function NotFoundPage(): React.ReactElement{
                 <HeadingDefault
                     color="primary"
                 >
-                    Página não localizada!
+                    Você não tem permissão para acessar esta página!
                 </HeadingDefault>
                 <Image 
-                    src={NotFoundImage}
+                    src={UnauthorizedImage}
                     height="60%"
                     width="auto"
                 />

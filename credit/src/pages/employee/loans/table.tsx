@@ -1,7 +1,7 @@
 import React from "react";
 import Moment from "moment";
-import { Table, TableContainer, Thead, Tbody, Tr, Td, Th } from "@chakra-ui/react";
 import { EmployeeContext, EmployeeContextProps } from "../../../providers/employee";
+import TableDefault from "../../../components/table";
 
 
 export default function EmployeeLoansTable(): React.ReactElement{
@@ -9,29 +9,27 @@ export default function EmployeeLoansTable(): React.ReactElement{
         loans
     }: EmployeeContextProps = React.useContext(EmployeeContext);
 
-    const columns: string[] = ["Empréstimo", "Data", "Valor"];
-
     return (
-        <TableContainer width="100%" height="100%">
-            <Table variant='striped' color="secondary">
-                <Thead>
-                    {...columns.map(column => (
-                        <Th color="secondary">{column}</Th>
-                    ))}
-                </Thead>
-                <Tbody>
-                    {...loans.map(item => {
-                        return (
-                            <Tr>
-                                <Td>{item.loan.description}</Td>
-                                <Td>{Moment(item.created).format("DD/MM/YYYY")}</Td>
-                                <Td>{item.value}</Td>
-                            </Tr>
-                        )
-                    })}
+        <TableDefault 
+            body={loans.map(item => {
+                return {
+                    data: item,
+                    rows: [
+                        {value: item.loan.description},
+                        {
+                            value: Moment(item.created).format("DD/MM/YYY"), 
+                            textAlign: "center"
+                        },
+                        {value: item.value, isNumeric: true}
+                    ]
+                }
+            })}
 
-                </Tbody>
-            </Table>
-        </TableContainer>
+            header={[
+                {value: "Empréstimo"},
+                {value: "Data", textAlign: "center"},
+                {value: "R$ Valor", isNumeric: true}
+            ]}
+        />
     )
 }
