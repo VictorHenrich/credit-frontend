@@ -26,7 +26,9 @@ export default function EmployeeLoansTable(): React.ReactElement{
                             value: Moment(item.created).format("DD/MM/YYY"), 
                             textAlign: "center"
                         },
-                        {value: item.value, isNumeric: true}
+                        {value: item.value, isNumeric: true},
+                        {value: item.numberInstallments, isNumeric: true},
+                        {value: item.status}
                     ]
                 }
             })}
@@ -34,7 +36,9 @@ export default function EmployeeLoansTable(): React.ReactElement{
             header={[
                 {value: "Empréstimo"},
                 {value: "Data", textAlign: "center"},
-                {value: "R$ Valor", isNumeric: true}
+                {value: "R$ Valor", isNumeric: true},
+                {value: "Quantidade de parcelas", isNumeric: true},
+                {value: "Status"}
             ]}
         />
     )

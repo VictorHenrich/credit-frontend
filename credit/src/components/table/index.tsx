@@ -6,7 +6,8 @@ import {
     Tbody, 
     Tr, 
     Td, 
-    Th, 
+    Th,
+    Tfoot,
     TableCellProps,
     IconButton,
     Stack
@@ -38,6 +39,7 @@ export interface TableActionsProps{
 export interface TableDefaultProps{
     body: TableItemProps[],
     header: TableRowProps[],
+    footer?: TableRowProps[],
     actionsProps?: TableActionsProps,
     itemSelected?: TableItemProps
 }
@@ -46,6 +48,7 @@ export interface TableDefaultProps{
 export default function TableDefault({
     body,
     header,
+    footer,
     actionsProps = {
         onDelete: ()=> undefined,
         onEdit: ()=> undefined,
@@ -145,8 +148,26 @@ export default function TableDefault({
                             </Tr>
                         )
                     })}
-
                 </Tbody>
+                {
+                    footer ? (
+                        <Tfoot backgroundColor="primary" color="secondary">
+                            <Tr>
+                                {...footer.map((item, index) => {
+                                    return (
+                                        <Th 
+                                            color="inherit"
+                                            key={index}
+                                            {...item}
+                                        >
+                                            {item.value}
+                                        </Th>
+                                    )
+                                })}
+                            </Tr>
+                        </Tfoot>
+                    ) : undefined
+                }
             </Table>
         </TableContainer>
     );

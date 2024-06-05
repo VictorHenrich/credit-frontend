@@ -1,3 +1,4 @@
+import { EmployeeLoanStatusType } from "../utils/types";
 import EmployeeEntity from "./Employee";
 import LoanEntity from "./Loan";
 import { ModelEntity } from "./common";
@@ -9,5 +10,6 @@ export default interface EmployeeLoanEntity extends ModelEntity{
     loan: LoanEntity,
     created: Date,
     value: number,
-    numberInstallments: number
+    numberInstallments: number,
+    status: EmployeeLoanStatusType
 }
