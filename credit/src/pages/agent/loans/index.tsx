@@ -37,6 +37,9 @@ export default function AgentLoansPage(): React.ReactElement{
 
     const [loanSelected, setLoanSelected] = React.useState<LoanEntity | undefined>();
 
+    function handleAlertProps(props: Partial<AlertDefaultProps>): void{
+        setAlertProps({ ...alertProps, ...props});
+    }
 
     async function handleLoadLoans(): Promise<void>{
         setOpenLoading(true);
@@ -235,7 +238,10 @@ export default function AgentLoansPage(): React.ReactElement{
                 onConfirm={deleteLoan}
             />
             <LoadingDefault open={openLoading}/>
-            <AlertDefault {...alertProps}/>
+            <AlertDefault 
+                {...alertProps}
+                onClose={()=> handleAlertProps({ open: false })}
+            />
         </Stack>
     )
 }

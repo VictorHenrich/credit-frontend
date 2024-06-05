@@ -278,7 +278,10 @@ export default function EmployeeLoanModal({
                     </Center>
                 </Stack>
             </Stack>
-            <AlertDefault {...alertProps}/>
+            <AlertDefault 
+                {...alertProps}
+                onClose={()=> handleAlertProps({ open: false })}
+            />
         </ModalDefault>
     )
 }

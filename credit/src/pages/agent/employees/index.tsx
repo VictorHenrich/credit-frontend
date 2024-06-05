@@ -39,6 +39,10 @@ export default function AgentEmployeesPage(): React.ReactElement{
 
     const [openDialog, setOpenDialog] = React.useState<boolean>(false);
 
+    function handleAlertProps(props: Partial<AlertDefaultProps>): void{
+        setAlertProps({ ...alertProps, ...props });
+    }
+
     async function handleLoadEmployees(): Promise<void>{
         setOpenLoading(true);
 
@@ -245,7 +249,10 @@ export default function AgentEmployeesPage(): React.ReactElement{
                 onConfirm={deleteEmployee}
             />
             <LoadingDefault open={openLoading}/>
-            <AlertDefault {...alertProps}/>
+            <AlertDefault
+                onClose={()=> handleAlertProps({ open: false })}
+                {...alertProps}
+            />
         </Stack>
     )
 }
