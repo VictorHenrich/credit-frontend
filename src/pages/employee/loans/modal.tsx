@@ -111,7 +111,7 @@ export default function EmployeeLoanModal({
                 open: true,
                 status: "error",
                 description: (
-                    "Sua conta não possui nenhum empréstimo liberado devido" +
+                    "Sua conta não possui nenhum empréstimo liberado devido " +
                     "ao valor solicitado ou ao score não atingido. Por favor, " +
                     "consulte seu supervisor para mais informações."
                 )
