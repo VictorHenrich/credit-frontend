@@ -10,6 +10,7 @@ import {
     ListIcon,
     As,
     DrawerCloseButton,
+    ListItemProps,
   } from '@chakra-ui/react'
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { useNavigate, NavigateFunction } from 'react-router-dom';
@@ -31,7 +32,8 @@ export interface MenuDefaultProps{
     itens: ItemMenuProps[],
     title?: string,
     isOpen?: boolean,
-    onSelectItem?: (item: ItemMenuProps) => void
+    onSelectItem?: (item: ItemMenuProps) => void,
+    itemSelected?: ItemMenuProps
 }
 
 
@@ -39,28 +41,25 @@ export default function MenuDefault({
     itens,
     title = "Menu",
     isOpen = false,
-    onSelectItem = () => null
+    onSelectItem = () => null,
+    itemSelected
 }: MenuDefaultProps){
     const [openMenu, setOpenMenu] = React.useState<boolean>(isOpen);
 
-    const [itemSelected, setItemSelected] = React.useState<ItemMenuProps | null>(null);
-
     const navigator: NavigateFunction = useNavigate();
 
-    const itemSelectStyles: React.CSSProperties = {
+    const itemSelectStyles: ListItemProps = {
         backgroundColor: "primary",
         color: "secondary"
     }
 
-    const itemDefaultStyles: React.CSSProperties = {
-        color: "primary",
+    const itemDefaultStyles: ListItemProps = {
         backgroundColor: "secondary",
+        color: "primary"
     }
 
     function onClick(item: ItemMenuProps): void{
         onSelectItem(item);
-                                    
-        setItemSelected(item);
 
         if(item.path)
             navigator(item.path);
@@ -88,6 +87,11 @@ export default function MenuDefault({
                 <DrawerBody>
                     <List width="100%" borderRadius={10} overflow="hidden">
                         {...itens.map((item) => {
+                            let style: ListItemProps = itemDefaultStyles;
+
+                            if(itemSelected && item.id === itemSelected.id)
+                                style = itemSelectStyles;
+
                             return (
                                 <ListItem
                                     width="100%"
@@ -102,9 +106,7 @@ export default function MenuDefault({
                                     cursor="pointer"
                                     fontSize={35}
                                     _hover={itemSelectStyles}
-                                    color="primary"
-                                    backgroundColor="secondary"
-                                    style={itemSelected?.id === item.id ? itemSelectStyles : itemDefaultStyles}
+                                    {...style}
                                 >
                                     <TextDefault color="inherit">{item.description}</TextDefault>
                                     {

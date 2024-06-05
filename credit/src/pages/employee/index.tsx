@@ -1,5 +1,5 @@
 import React from "react";
-import MenuDefault from "../../components/menu";
+import MenuDefault, { ItemMenuProps } from "../../components/menu";
 import { NavigateFunction, Outlet, useNavigate } from "react-router-dom";
 import EmployeeProvider from "../../providers/employee";
 import { EMPLOYEE_ITENS_MENU } from "../../utils/constantes";
@@ -13,13 +13,17 @@ export default function EmployeePage(){
 
     React.useEffect(()=> {
         navigator(import.meta.env.VITE_EMPLOYEE_PROFILE_PATH);
-    }, [])
+    }, []);
+
+    const [itemSelected, setItemSelected] = React.useState<ItemMenuProps | undefined>();
 
     return (
         <EmployeeProvider>
             <MenuDefault
                 isOpen={true}
                 itens={EMPLOYEE_ITENS_MENU}
+                itemSelected={itemSelected}
+                onSelectItem={(item) => setItemSelected(item)}
             />
             <Center 
                 width="100vw" 

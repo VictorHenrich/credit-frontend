@@ -61,6 +61,8 @@ export default function EmployeeLoansPage(): React.ReactElement{
                 status: "success"
             });
 
+            await handleLoadLoans();
+
         }catch(error){
             handleAlertProps({
                 open: true,
@@ -70,8 +72,6 @@ export default function EmployeeLoansPage(): React.ReactElement{
         }
 
         setOpenLoading(false);
-
-        await handleLoadLoans();
     }
 
     React.useEffect(()=> {
@@ -93,7 +93,10 @@ export default function EmployeeLoansPage(): React.ReactElement{
                 align="center"
                 justify="flex-end"
             >
-                <ButtonDefault width="auto">
+                <ButtonDefault 
+                    width="auto"
+                    onClick={handleLoadLoans}
+                >
                     Procurar
                     <Icon 
                         as={MdOutlineSearch} 
@@ -119,7 +122,10 @@ export default function EmployeeLoansPage(): React.ReactElement{
                 onClose={()=> setOpenModal(false)}
                 onConfirm={handleCreateEmployeeLoan}
             />
-            <AlertDefault {...alertProps}/>
+            <AlertDefault 
+                {...alertProps}
+                onClose={()=> handleAlertProps({ open: false })}
+            />
             <LoadingDefault open={openLoading}/>
         </Stack>
     )

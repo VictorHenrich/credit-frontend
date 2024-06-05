@@ -1,5 +1,5 @@
 import React from "react";
-import MenuDefault from "../../components/menu";
+import MenuDefault, { ItemMenuProps } from "../../components/menu";
 import { NavigateFunction, Outlet, useNavigate } from "react-router-dom";
 import AgentProvider from "../../providers/agent";
 import { AGENT_ITENS_MENU } from "../../utils/constantes";
@@ -15,11 +15,15 @@ export default function AgentPage(){
         navigator(import.meta.env.VITE_AGENT_EMPLOYEES_PATH);
     }, []);
 
+    const [itemSelected, setItemSelected] = React.useState<ItemMenuProps | undefined>();
+
     return (
         <AgentProvider>
             <MenuDefault
                 isOpen={true}
                 itens={AGENT_ITENS_MENU}
+                itemSelected={itemSelected}
+                onSelectItem={(item) => setItemSelected(item)}
             />
             <Center 
                 width="100vw" 

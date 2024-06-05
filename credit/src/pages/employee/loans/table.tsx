@@ -10,7 +10,13 @@ export default function EmployeeLoansTable(): React.ReactElement{
     }: EmployeeContextProps = React.useContext(EmployeeContext);
 
     return (
-        <TableDefault 
+        <TableDefault
+            actionsProps={{
+                has: false,
+                onClick: ()=> null,
+                onDelete: () => null,
+                onEdit: () => null
+            }}
             body={loans.map(item => {
                 return {
                     data: item,

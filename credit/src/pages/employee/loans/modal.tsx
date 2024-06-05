@@ -23,10 +23,12 @@ export default function EmployeeLoanModal({
     onConfirm,
     open
 }: EmployeeLoanModalProps): React.ReactElement{
-    const [loanData, setLoanData] = React.useState<LoanDataType>({
+    const newLoanData: LoanDataType = {
         value: 0,
         numberInstallments: 0
-    });
+    }
+
+    const [loanData, setLoanData] = React.useState<LoanDataType>(newLoanData);
 
     const [loans, setLoans] = React.useState<LoanEntity[]>([]);
 
@@ -46,6 +48,18 @@ export default function EmployeeLoanModal({
         setLoanData({ ...loanData, ...props });
     }
 
+    React.useEffect(()=> {
+        if(open){
+            setLoanData(newLoanData);
+
+            handleAlertProps({ open: false });
+        
+            setItemSelected(undefined);
+
+            findLoans();
+        }
+    }, [open]);
+
     async function findLoans(){
         try{
             const loans: LoanEntity[] = await EmployeeLoanService.findEmployeeLoansReleased();
@@ -64,11 +78,6 @@ export default function EmployeeLoanModal({
             })
         }
     }
-
-    React.useEffect(()=> {
-        if(open)
-            findLoans();
-    }, [open]);
 
     return (
         <ModalDefault
@@ -140,9 +149,9 @@ export default function EmployeeLoanModal({
                     }}
                     inputProps={{
                         type: "number",
-                        value: loanData.value,
+                        value: loanData.numberInstallments,
                         onChange: ({ target: { value }}) => {
-                            handleLoanProps({ value: parseInt(value) });
+                            handleLoanProps({ numberInstallments: parseInt(value) });
                         }
                     }}
                 />
@@ -153,9 +162,9 @@ export default function EmployeeLoanModal({
                     }}
                     inputProps={{
                         type: "number",
-                        value: loanData.numberInstallments,
+                        value: loanData.value,
                         onChange: ({ target: { value }}) => {
-                            handleLoanProps({ numberInstallments: parseInt(value) });
+                            handleLoanProps({ value: parseInt(value) });
                         }
                     }}
                 />
