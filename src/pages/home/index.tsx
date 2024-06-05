@@ -98,7 +98,7 @@ export default function HomePage(): React.ReactElement{
                             </Stack>
                             <ButtonDefault
                                 onClick={() => setUserType(UserTypes.EMPLOYEE)}
-                            >Sou funcionário</ButtonDefault>
+                            >Sou Funcionário</ButtonDefault>
                             <ButtonDefault onClick={() => setUserType(UserTypes.AGENT)}>Sou Representante</ButtonDefault>
                         </Stack>
                         )
