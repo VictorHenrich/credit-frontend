@@ -26,7 +26,8 @@ interface ImportMetaEnv {
     readonly VITE_EMPLOYEE_CREATION_URL: string
     readonly VITE_EMPLOYEE_UPDATE_URL: string
     readonly VITE_EMPLOYEE_EXCLUSION_URL: string
-    readonly VITE_EMPLOYEE_LOAN_LISTING_URL: string
+    readonly VITE_EMPLOYEE_LOAN_LIST_RELEASED_URL: string
+    readonly VITE_EMPLOYEE_LOAN_LIST_ALL_URL: string
     readonly VITE_EMPLOYEE_LOAN_CREATION_URL: string
   }
   

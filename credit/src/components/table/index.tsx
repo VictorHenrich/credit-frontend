@@ -21,13 +21,15 @@ export interface TableRowProps extends Partial<TableCellProps>{
 
 export interface TableItemProps{
     rows: TableRowProps[],
-    data: any
+    data: any,
+    id?: string | number
 }
 
 
 export interface TableActionsProps{
     onDelete: (item: TableItemProps)=> void,
     onEdit: (item: TableItemProps) => void,
+    onClick: (item: TableItemProps) => void,
     has: boolean,
     columnName?: string
 }
@@ -36,7 +38,8 @@ export interface TableActionsProps{
 export interface TableDefaultProps{
     body: TableItemProps[],
     header: TableRowProps[],
-    actionsProps?: TableActionsProps
+    actionsProps?: TableActionsProps,
+    itemSelected?: TableItemProps
 }
 
 
@@ -46,27 +49,37 @@ export default function TableDefault({
     actionsProps = {
         onDelete: ()=> undefined,
         onEdit: ()=> undefined,
+        onClick: ()=> undefined,
         has: true,
         columnName: "Ações"
-    }
+    },
+    itemSelected
 }: TableDefaultProps){
+    const columnStyle: React.CSSProperties = {
+        backgroundColor: "rgb(220, 220, 220)",
+        color: "secondary",
+    }
+
     return (
         <TableContainer width="100%" height="100%">
-            <Table
-                backgroundColor="secondary"
-                color="primary"
-            >
+            <Table>
                 <Thead backgroundColor="tertiary">
                     <Tr>
-                        {...header.map(item => (
-                            <Th color="secondary" {...item}>
+                        {...header.map((item, index) => (
+                            <Th 
+                                color="secondary" 
+                                {...item}
+                                key={index}
+                            >
                                 {item.value}
                             </Th>
                         ))}
                         {
                             actionsProps.has
                                 ? (
-                                    <Th textAlign="center" color="secondary">
+                                    <Th 
+                                        textAlign="center" 
+                                        color="secondary">
                                         {actionsProps.columnName}
                                     </Th>
                                 )
@@ -74,10 +87,20 @@ export default function TableDefault({
                         }
                     </Tr>
                 </Thead>
-                <Tbody>
-                    {...body.map(item => {
+                <Tbody backgroundColor="secondary">
+                    {...body.map((item, index) => {
+                        let style: React.CSSProperties = {};
+
+                        if(itemSelected && item.id === itemSelected.id)
+                            style = columnStyle;
+
                         return (
-                            <Tr>
+                            <Tr 
+                                style={style}
+                                cursor="pointer"
+                                onClick={()=> actionsProps.onClick(item)}
+                                key={index}
+                            >
                                 {...item.rows.map(i => {
                                     return (
                                         <Td 

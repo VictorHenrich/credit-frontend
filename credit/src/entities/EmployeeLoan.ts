@@ -8,5 +8,6 @@ export default interface EmployeeLoanEntity extends ModelEntity{
     employee: EmployeeEntity,
     loan: LoanEntity,
     created: Date,
-    value: number
+    value: number,
+    numberInstallments: number
 }

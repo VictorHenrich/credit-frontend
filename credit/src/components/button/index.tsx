@@ -14,6 +14,10 @@ export default function ButtonDefault(props: ButtonProps){
                 backgroundColor: "tertiary",
                 color: "secondary"
             }}
+            _disabled={{
+                backgroundColor: "gray",
+                color: "secondary"
+            }}
             {...props}
         />
     )
