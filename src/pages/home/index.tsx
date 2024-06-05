@@ -74,7 +74,7 @@ export default function HomePage(): React.ReactElement{
                 height="100%"
                 boxSizing="border-box"
                 padding={40}
-                bgGradient="linear-gradient(to right, secondary 0%, secondary 5%, primary 6%, primary 94%)"
+                backgroundColor="primary"
             >
                 {
                     !userType
