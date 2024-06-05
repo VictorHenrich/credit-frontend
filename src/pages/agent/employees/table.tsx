@@ -1,12 +1,13 @@
 import React from "react"
 import { AgentContext, AgentContextProps } from "../../../providers/agent";
 import TableDefault, { TableActionsProps } from "../../../components/table";
+import EmployeeEntity from "../../../entities/Employee";
 
 
 export default function AgentEmployeesTable({
     onDelete,
     onEdit
-}: Pick<TableActionsProps, "onDelete" | "onEdit">): React.ReactElement{
+}: Pick<TableActionsProps<EmployeeEntity>, "onDelete" | "onEdit">): React.ReactElement{
     const {
         employees
     }: AgentContextProps = React.useContext(AgentContext);
@@ -17,7 +18,8 @@ export default function AgentEmployeesTable({
                 columnName: "Ações",
                 onDelete,
                 onEdit,
-                has: true
+                has: true,
+                onClick: ()=> null
             }}
             body={employees.map(item => {
                 return {

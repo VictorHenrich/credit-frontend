@@ -1,13 +1,14 @@
 import React from "react";
 import { AgentContext, AgentContextProps } from "../../../providers/agent";
 import TableDefault, { TableActionsProps } from "../../../components/table";
+import LoanEntity from "../../../entities/Loan";
 
 
 
 export default function AgentLoansTable({
     onDelete,
     onEdit
-}: Pick<TableActionsProps, "onDelete" | "onEdit">): React.ReactElement{
+}: Pick<TableActionsProps<LoanEntity>, "onDelete" | "onEdit">): React.ReactElement{
     const {
         loans
     }: AgentContextProps = React.useContext(AgentContext);
@@ -16,7 +17,8 @@ export default function AgentLoansTable({
             actionsProps={{
                 has: true,
                 onDelete,
-                onEdit
+                onEdit,
+                onClick: ()=> null
             }}
             body={loans.map(loan => {
                 return {

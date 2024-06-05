@@ -20,32 +20,32 @@ export interface TableRowProps extends Partial<TableCellProps>{
     value: string | number | React.ReactElement
 }
 
-export interface TableItemProps{
+export interface TableItemProps<T>{
     rows: TableRowProps[],
-    data: any,
+    data: T,
     id?: string | number
 }
 
 
-export interface TableActionsProps{
-    onDelete: (item: TableItemProps)=> void,
-    onEdit: (item: TableItemProps) => void,
-    onClick: (item: TableItemProps) => void,
+export interface TableActionsProps<T>{
+    onDelete: (item: TableItemProps<T>)=> void,
+    onEdit: (item: TableItemProps<T>) => void,
+    onClick: (item: TableItemProps<T>) => void,
     has: boolean,
     columnName?: string
 }
 
 
-export interface TableDefaultProps{
-    body: TableItemProps[],
+export interface TableDefaultProps<T>{
+    body: TableItemProps<T>[],
     header: TableRowProps[],
     footer?: TableRowProps[],
-    actionsProps?: TableActionsProps,
-    itemSelected?: TableItemProps
+    actionsProps?: TableActionsProps<T>,
+    itemSelected?: TableItemProps<T>
 }
 
 
-export default function TableDefault({
+export default function TableDefault<T>({
     body,
     header,
     footer,
@@ -57,7 +57,7 @@ export default function TableDefault({
         columnName: "Ações"
     },
     itemSelected
-}: TableDefaultProps){
+}: TableDefaultProps<T>){
     const columnStyle: React.CSSProperties = {
         backgroundColor: "rgb(220, 220, 220)",
         color: "secondary",

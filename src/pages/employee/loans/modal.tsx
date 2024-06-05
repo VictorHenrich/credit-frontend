@@ -31,11 +31,11 @@ export default function EmployeeLoanModal({
 
     const [loanData, setLoanData] = React.useState<LoanDataType>(newLoanData);
 
-    const [installments, setInstallments] = React.useState<TableItemProps[]>([]);
+    const [installments, setInstallments] = React.useState<TableItemProps<number>[]>([]);
 
     const [loans, setLoans] = React.useState<LoanEntity[]>([]);
 
-    const [itemSelected, setItemSelected] = React.useState<TableItemProps | undefined>(undefined);
+    const [itemSelected, setItemSelected] = React.useState<TableItemProps<LoanEntity> | undefined>(undefined);
 
     const [alertProps, setAlertProps] = React.useState<AlertDefaultProps>({
         open: false,
