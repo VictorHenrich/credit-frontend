@@ -17,6 +17,7 @@ import { useNavigate, NavigateFunction } from 'react-router-dom';
 import TextDefault from '../text';
 import HeadingDefault from '../heading';
 import ButtonDefault from '../button';
+import { menuStore, setItemSelected } from '../../redux/menu';
 
 
 
@@ -33,7 +34,7 @@ export interface MenuDefaultProps{
     title?: string,
     isOpen?: boolean,
     onSelectItem?: (item: ItemMenuProps) => void,
-    itemSelected?: ItemMenuProps
+    initialItemSelected?: ItemMenuProps
 }
 
 
@@ -42,8 +43,10 @@ export default function MenuDefault({
     title = "Menu",
     isOpen = false,
     onSelectItem = () => null,
-    itemSelected
+    initialItemSelected
 }: MenuDefaultProps){
+    const { itemSelected } = menuStore.getState();
+
     const [openMenu, setOpenMenu] = React.useState<boolean>(isOpen);
 
     const navigator: NavigateFunction = useNavigate();
@@ -59,11 +62,18 @@ export default function MenuDefault({
     }
 
     function onClick(item: ItemMenuProps): void{
+        menuStore.dispatch(setItemSelected(item));
+
         onSelectItem(item);
 
         if(item.path)
             navigator(item.path);
     }
+
+    React.useEffect(()=> {
+        if(initialItemSelected)
+            menuStore.dispatch(setItemSelected(initialItemSelected));
+    }, [initialItemSelected]);
 
     return (
         <>
